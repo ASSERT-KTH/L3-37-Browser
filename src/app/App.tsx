@@ -1,32 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
+import * as React from 'react';
+import { Layout, Menu, Breadcrumb, Form, Input, Icon } from 'antd';
+
+const { Header, Content, Footer } = Layout;
 
 class App extends React.Component<any, any>{
 
+  constructor(props){
+    super(props)
+
+    this.state = {
+      url: ''
+    }
+  }
 
   componentDidMount(){
-    console.log((window as any).require('electron'))
+    console.log(document.getElementById('view'))
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let val = values.url;
+        let https = val.slice(0, 8).toLowerCase();
+        let http = val.slice(0, 7).toLowerCase();
+        if (https === 'https://') {
+            this.setState({url: val})
+        } else if (http === 'http://') {
+          this.setState({url: val})
+        } else {
+
+          this.setState({url: 'http://' + val})
+        }
+      }
+    });
+  }
+
+  r: any;
+
+  renderBar(){
+
+    const {
+      getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
+    } = this.props.form;
+
+    return (<Form style={{width: '100%', margin: '10px'}} layout="inline" onSubmit={this.handleSubmit}>
+              <Form.Item
+              >
+                 {getFieldDecorator('url', {
+                  })(
+                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" />
+                  )}
+            </Form.Item>
+              
+            </Form>)
   }
 
   render(){
-    return (<div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-        
-      </a>
-    </header>
-  </div>)
+    return ( <Layout style={{width:'100%', height: '100%'}}>
+                <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '60px' }}>
+                  
+                  {this.renderBar()}
+                </Header>
+                <webview style={{width:'100%', height: '100%', paddingTop: '60px'}}  src={this.state.url} />
+                
+              </Layout>);
   }
 }
 
-export default App;
+export default Form.create()(App);
