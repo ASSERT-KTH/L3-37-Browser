@@ -8,7 +8,6 @@
     "@babel/core": "7.4.3",
     "@svgr/webpack": "4.1.0",
     "@types/jest": "24.0.12",
-    "@types/node": "12.0.0",
     "@types/react": "16.8.16",
     "@types/react-dom": "16.8.4",
     "@typescript-eslint/eslint-plugin": "1.6.0",
@@ -59,7 +58,7 @@
     "typescript": "3.4.5",
     "url-loader": "1.1.2",
     "webpack": "4.29.6",
-    "webpack-dev-server": "3.2.1",
+    "webpack-dev-server": "^3.3.1",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.2.0"
   },
@@ -68,7 +67,9 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
-    "electron-prod": "electron ."
+    "electron-prod": "electron .",
+    "build:css": "node-sass src/ -o src/ ",
+    "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -136,6 +137,9 @@
     ]
   },
   "devDependencies": {
-    "electron": "^5.0.1"
+    "@types/node": "^12.0.0",
+    "@types/node-sass": "^4.11.0",
+    "electron": "^5.0.1",
+    "node-sass": "^4.12.0"
   }
 }
