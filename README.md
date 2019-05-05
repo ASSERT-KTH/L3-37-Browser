@@ -20,3 +20,8 @@ npm run electron-dev
 ```
 electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
 ```
+
+### Compile linux (MACOS)
+
+1. ``` brew install fakeroot dpkg ```
+
