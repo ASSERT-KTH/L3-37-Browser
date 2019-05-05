@@ -20,4 +20,28 @@ circle.node {
 .canvas {
     display: block;
     margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+.main-container{
+    position: relative;
+
+    $barsize: 45px;
+    .canvas{
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        padding-top: $barsize;
+        opacity: 0.5;
+    }
+    webview{
+        position: absolute;
+        top:0;
+        left:0;
+
+        padding-top: $barsize;
+        opacity: 0.5;
+    }
 }

@@ -37,7 +37,7 @@ export default class TreeView extends React.Component<IProps, any>{
         if(!this.state.data)
             return null;
 
-        return <D3View url={this.props.url} data={this.state.data} width={800} height={800} />
+        return <D3View url={this.props.url} data={this.state.data} />
     }
 
 }
