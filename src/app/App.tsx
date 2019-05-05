@@ -14,7 +14,8 @@ class App extends React.Component<any, any>{
 
     this.state = {
       url: '',
-      collapsed: false
+      collapsed: false,
+      validUrl: ''
     }
   }
 
@@ -34,6 +35,11 @@ class App extends React.Component<any, any>{
             url: this.r.src
           })
         }
+      });
+      this.r.addEventListener('did-finish-load', (e) => {
+        this.setState({
+          validUrl: this.r.src
+        })
       });
     }
   }
@@ -118,8 +124,8 @@ class App extends React.Component<any, any>{
                   {this.renderBar()}
                 </Header>
                 <div style={{width:'100%', height: '100%', paddingTop: '48px'}} >
-                  <TreeView url={getFieldValue('url')} />
-                  <webview ref={e => this.r = e} style={{width:'100%', height: '100%'}}  src={this.state.url} />
+                  <TreeView url={this.state.validUrl} />
+                  <webview ref={e => this.r = e} style={{width:'100%', height: '100%', visibility:'hidden'}}  src={this.state.url} />
                 </div>
               </Layout>);
   }
