@@ -25,7 +25,6 @@ export default class D3View extends React.Component<IProps, any>{
     }
 
     updateNodes = (root) => {
-        console.log("Updating nodes", root.descendants())
         let nodes = d3.select(this.c).select(".nodes").selectAll('circle.node')
             .data(root.descendants());
 
@@ -44,7 +43,6 @@ export default class D3View extends React.Component<IProps, any>{
     }
 
     updateLinks = (root) => {
-        console.log("Updating links", root.links())
         let links = d3.select(this.c).select(".links").selectAll('path.link')
             .data(root.links());
         links.exit().remove();
@@ -58,16 +56,15 @@ export default class D3View extends React.Component<IProps, any>{
 
     setData(data){
 
-        const width = this.props.width || 300;
-        const height = this.props.height || 300;
+        const width = this.props.width || this.c.clientWidth;
+        const height = this.props.height || this.c.clientHeight;
+        
         const MARGIN = 10;
 
         
-        this.setState({
-            data: d
-        })
-        d3.hierarchy(data);
+        this.svg = d3.select(this.c)
 
+        const root = d3.hierarchy(data);
         
         const layout = d3.cluster().size([2 * Math.PI, Math.min(width, height)/2 - 2*MARGIN]);
         layout(root);
@@ -75,21 +72,11 @@ export default class D3View extends React.Component<IProps, any>{
 
         this.updateNodes(root);
         this.updateLinks(root);
-    }
 
-    drawChart() {
-
-        const width = this.props.width || 300;
-        const height = this.props.height || 300;
-
-        this.svg = d3.select(this.c)
-        .attr("width", width)
-        .attr("height", height)
-        
-        
 
         let centerX = width/2;
         let centerY = height/2;
+
 
         this.svg.select('.nodes').attr('transform', `translate(${centerX},${centerY})`);
         this.svg.select('.links').attr('transform', `translate(${centerX},${centerY})`);
@@ -99,19 +86,11 @@ export default class D3View extends React.Component<IProps, any>{
     c: any;
 
     componentDidMount(){
-        this.drawChart();
-
         this.setData(this.props.data);
     }
 
-    componentWillReceiveProps(nextProps: IProps){
-
-        if(nextProps.url !== this.props.url || nextProps.width !== this.props.width || nextProps.height !== this.props.height)
-        {
-            this.setData(nextProps.data);
-
-            this.forceUpdate();
-        }
+    componentDidUpdate(){
+        this.setData(this.props.data);
     }
 
     render(){
