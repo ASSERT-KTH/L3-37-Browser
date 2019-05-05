@@ -1,22 +1,27 @@
 import * as React from 'react';
 import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix } from 'antd';
+import TreeView from './components/tree.view';
 
-const { Header, Content, Footer } = Layout;
+const {SubMenu} = Menu;
+
+const { Header, Content, Footer, Sider } = Layout;
 
 class App extends React.Component<any, any>{
+
 
   constructor(props){
     super(props)
 
     this.state = {
-      url: ''
+      url: '',
+      collapsed: false
     }
   }
 
   componentDidMount(){
     console.log(document.getElementById('view'))
     if(this.r){
-      this.r.addEventListener('did-finish-load', (e) => {
+      this.r.addEventListener('did-start-loading', (e) => {
         console.log(e, this.r.src)
 
         if(this.r.src !== this.state.url){
@@ -84,13 +89,38 @@ class App extends React.Component<any, any>{
   }
 
   render(){
+
+    const {
+      getFieldValue
+    } = this.props.form;
+
     return ( <Layout style={{width:'100%', height: '100%'}}>
+              <Sider
+                    collapsible
+                    collapsed={this.state.collapsed}
+                    onCollapse={() => this.setState({collapsed: !this.state.collapsed})}
+                    style={{paddingTop: '48px'}}
+                  >
+                    <div className="logo" />
+                    <Menu theme="dark" mode="inline">
+                      
+                    <SubMenu key="sub1" title={<span><Icon type="pie-chart" /></span>}>
+                      <Menu.Item key="1">option1</Menu.Item>
+                      <Menu.Item key="2">option2</Menu.Item>
+                      <Menu.Item key="3">option3</Menu.Item>
+                      <Menu.Item key="4">option4</Menu.Item>
+                    </SubMenu>
+                      
+                    </Menu>
+                  </Sider>
                 <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '50px', padding:'5px' }}>
                   
                   {this.renderBar()}
                 </Header>
-                <webview ref={e => this.r = e} style={{width:'100%', height: '100%', paddingTop: '48px'}}  src={this.state.url} />
-                
+                <div style={{width:'100%', height: '100%', paddingTop: '48px'}} >
+                  <TreeView url={getFieldValue('url')} />
+                  <webview ref={e => this.r = e} style={{width:'100%', height: '100%'}}  src={this.state.url} />
+                </div>
               </Layout>);
   }
 }
