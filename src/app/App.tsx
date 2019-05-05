@@ -15,6 +15,15 @@ class App extends React.Component<any, any>{
 
   componentDidMount(){
     console.log(document.getElementById('view'))
+    if(this.r){
+      /*this.r.addEventListener('did-finish-load', (e) => {
+        console.log(e, this.r.src)
+
+        if(this.r.src != this.state.url){
+          this.setState({url: this.r.src})
+        }
+      });*/
+    }
   }
 
   handleSubmit = (e) => {
@@ -38,6 +47,12 @@ class App extends React.Component<any, any>{
 
   r: any;
 
+  getValue = () => {
+    if(this.r)
+        return this.r.src
+    return '';
+  }
+
   renderBar(){
 
     const {
@@ -49,7 +64,7 @@ class App extends React.Component<any, any>{
               >
                  {getFieldDecorator('url', {
                   })(
-                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" />
+                    <Input value={this.getValue()} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" />
                   )}
             </Form.Item>
               
@@ -62,7 +77,7 @@ class App extends React.Component<any, any>{
                   
                   {this.renderBar()}
                 </Header>
-                <webview style={{width:'100%', height: '100%', paddingTop: '60px'}}  src={this.state.url} />
+                <webview ref={e => this.r = e} style={{width:'100%', height: '100%', paddingTop: '60px'}}  src={this.state.url} />
                 
               </Layout>);
   }

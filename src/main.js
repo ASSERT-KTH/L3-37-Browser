@@ -27,8 +27,22 @@ function createWindow () {
   mainWindow.loadURL(startUrl);
 
   // Open the DevTools.
-  if(!!process.env.ELECTRON_START_URL)
-    mainWindow.webContents.openDevTools()
+  //if(!!process.env.ELECTRON_START_URL)
+   // mainWindow.webContents.openDevTools()
+if (process.env.NODE_ENV === 'development') {
+    mainWindow.openDevTools();
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      const { x, y } = props;
+
+      Menu.buildFromTemplate([{
+        label: 'Inspect element',
+        click() {
+          mainWindow.inspectElement(x, y);
+        }
+      }]).popup(mainWindow);
+    });
+  }
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

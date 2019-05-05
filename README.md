@@ -14,3 +14,9 @@ npm run start
 npm run watch:css
 npm run electron-dev
 ```
+
+## Compile scripts
+
+```
+electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds
+```
