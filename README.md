@@ -1,5 +1,5 @@
 
-Executable linux release:
+Executable linux release: [https://github.com/Jacarte/page-structure-browser/releases/tag/0.0.1]()
 
 ![Preview](docs/imgs/preview.png)
 
