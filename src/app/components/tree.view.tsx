@@ -7,21 +7,37 @@ interface IProps{
     url: string;
 }
 
+interface IState{
+    data?: any;
+}
+
 export default class TreeView extends React.Component<IProps, any>{
 
     @resolve(DomParserService)
     domParser: DomParserService;
 
+    constructor(props){
+        super(props)
+
+        this.state = {
+            data: undefined
+        }
+    }
+
     componentWillReceiveProps(nextProps: IProps){
         if(nextProps.url != this.props.url){
             this.domParser.getTree(nextProps.url).then(result => {
-                console.log(result);
+                this.setState({data: result})
             });
         }
     }
 
     render(){
-        return <D3View />
+
+        if(!this.state.data)
+            return null;
+
+        return <D3View url={this.props.url} data={this.state.data} width={800} height={800} />
     }
 
 }
