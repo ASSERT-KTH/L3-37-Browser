@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GBrowser",
+  "name": "GBrowser",
   "icons": [
     {
       "src": "favicon.ico",
