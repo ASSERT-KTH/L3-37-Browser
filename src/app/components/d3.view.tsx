@@ -4,11 +4,7 @@ import * as d3 from 'd3';
 
 
 interface IProps{
-    width?: number;
-    height?: number;
     data: any;
-
-    url: string;
 }
 
 interface IState{
@@ -54,10 +50,10 @@ export default class D3View extends React.Component<IProps, any>{
     nodePosition = (d) => `translate(${d3.pointRadial(d.x, d.y)})`;
     svg: any;
 
-    setData(data){
+    setData = async (data) => {
 
-        const width = this.props.width || this.c.clientWidth;
-        const height = this.props.height || this.c.clientHeight;
+        const width = this.c.clientWidth;
+        const height = this.c.clientHeight;
         
         const MARGIN = 10;
 
@@ -89,8 +85,12 @@ export default class D3View extends React.Component<IProps, any>{
         this.setData(this.props.data);
     }
 
-    componentDidUpdate(){
-        this.setData(this.props.data);
+    componentWillReceiveProps(nextProps: IProps){
+        if(nextProps.data !== this.props.data){
+
+                console.log("Updating");
+                this.setData(nextProps.data);
+        }
     }
 
     render(){
