@@ -9,6 +9,8 @@ interface IProps{
 
 interface IState{
     data: any;
+    width: number;
+    height: number;
 }
 export default class D3View extends React.Component<IProps, any>{
     
@@ -16,7 +18,9 @@ export default class D3View extends React.Component<IProps, any>{
         super(props)
 
         this.state = {
-            data: undefined
+            data: undefined,
+            width: 300,
+            height: 300
         }
     }
 
@@ -52,8 +56,8 @@ export default class D3View extends React.Component<IProps, any>{
 
     setData = async (data) => {
 
-        const width = this.c.clientWidth;
-        const height = this.c.clientHeight;
+        const width = this.state.width;
+        const height = this.state.height;
         
         const MARGIN = 10;
 
@@ -81,15 +85,42 @@ export default class D3View extends React.Component<IProps, any>{
 
     c: any;
 
+    interval: any;
+
     componentDidMount(){
         this.setData(this.props.data);
+
+        this.checkSize();
+    }
+
+    // Very good hack
+    sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    checkSize = async () => {
+        if(this.c){
+            //console.log("Setting size", this.c.clientWidth, this.c.clientHeight);
+            if(this.state.width !== this.c.clientWidth || this.state.height !== this.c.clientHeight){
+                this.setState({width: this.c.clientWidth, height: this.c.clientHeight},  () => {
+                    this.setData(this.props.data)
+                })
+            }
+        }
+
+        await this.sleep(1000);
+        this.checkSize();
+    }
+
+    componentWillUnmount(){
+        //clearInterval(this.interval);
     }
 
     componentWillReceiveProps(nextProps: IProps){
         if(nextProps.data !== this.props.data){
 
-                console.log("Updating");
-                this.setData(nextProps.data);
+            console.log("Updating");
+            this.setData(nextProps.data);
         }
     }
 

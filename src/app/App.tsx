@@ -81,12 +81,13 @@ class App extends React.Component<any, any>{
       getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
     } = this.props.form;
 
+    // addonAfter={<Icon type="setting" />} 
     return (<Form style={{width: '100%', margin: ''}} onSubmit={this.handleSubmit}>
               <Form.Item
               >
                  {getFieldDecorator('url', {
                   })(
-                    <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" addonAfter={<Icon type="setting" />} />
+                    <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url"/>
                   )}
             </Form.Item>
               
