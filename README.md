@@ -1,7 +1,7 @@
 
 # Mini browser electron app with structure rendering with d3
 
-Executable linux release: [https://github.com/Jacarte/page-structure-browser/releases]()
+Executable linux release available
 
 ![Preview](docs/imgs/preview.png)
 
