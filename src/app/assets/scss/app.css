@@ -55,8 +55,12 @@ circle.node-head, circle.node-meta {
   fill: antiquewhite;
 }
 
-circle.node-script, circle.node-style, circle.node-link {
+circle.node-script {
   fill: #1890ff;
+}
+
+circle.node-style, circle.node-link {
+  fill: magenta;
 }
 
 circle.node-label, circle.node-h1, circle.node-h2, circle.node-h3, circle.node-h4, circle.node-h5, circle.node-h6, circle.node-span, circle.node-p, circle.node-td, circle.node-th, circle.node-img, circle.node-i, circle.node-noscript, circle.node-u, circle.node-b, circle.node-cite {

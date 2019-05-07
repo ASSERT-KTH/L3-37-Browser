@@ -68,8 +68,11 @@ circle.node {
     }
 
     // Scripts and links
-    &-script, &-style, &-link{
+    &-script{
         fill: #1890ff;
+    }
+    &-style, &-link{
+        fill: magenta;
     }
 
     // Presentation tag

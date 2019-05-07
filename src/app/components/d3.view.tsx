@@ -145,7 +145,7 @@ export default class D3View extends React.Component<IProps, any>{
                     <g className="links"></g>
                     <g className="nodes"></g>
             </svg>
-            <svg className='legend' width={400} height={400}>
+            <svg style={this.props.style} className='legend' width={this.state.width} height={this.state.height}>
                 <g className="nodes">
                     {
                         Object.keys(this.state.legend).map((i, index) => 
