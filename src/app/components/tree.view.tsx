@@ -2,17 +2,23 @@ import * as React from 'react';
 import DomParserService from '../services/dom.parser';
 import { resolve } from 'inversify-react';
 import D3View from './d3.view';
-
+import { Slider } from 'antd';
+import * as d3 from 'd3';
 interface IProps{
     url: string;
     style?: React.CSSProperties;
 }
 
 interface IState{
-    data?: any;
+    nodes?: any[];
+    links?: any[];
+    scale: number;
+
+    width: number;
+    height: number;
 }
 
-export default class TreeView extends React.Component<IProps, any>{
+export default class TreeView extends React.Component<IProps, IState>{
 
     @resolve(DomParserService)
     domParser: DomParserService;
@@ -21,24 +27,78 @@ export default class TreeView extends React.Component<IProps, any>{
         super(props)
 
         this.state = {
-            data: undefined
+            nodes: [],
+            links: [],
+            scale: 1,
+            width: 500,
+            height: 500
         }
     }
 
     componentWillReceiveProps(nextProps: IProps){
         if(nextProps.url != this.props.url){
             this.domParser.getTree(nextProps.url).then(result => {
-                this.setState({data: result})
+
+
+                const root = d3.hierarchy(result);
+                const MARGIN = 30;
+
+                const layout = d3.cluster().size([2 * Math.PI, Math.min(this.state.width, this.state.height)/2 - 2*MARGIN]);
+                layout(root);
+
+                this.setState({nodes: root.descendants()
+                    , links: root.links()})
             });
         }
     }
 
+    componentDidMount(){
+        this.checkSize()
+    }
+
+    // Very good hack
+    sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    c: any;
+    checkSize = async () => {
+        if(this.c){
+            if(this.state.width !== this.c.clientWidth || this.state.height !== this.c.clientHeight){
+                if(this.c.clientWidth > 0 && this.c.clientHeight > 0)
+                    this.setState({width: this.c.clientWidth, height: this.c.clientHeight})
+            }
+        }
+
+        await this.sleep(1000);
+        this.checkSize();
+    }
+
     render(){
 
-        if(!this.state.data)
+        if(!this.state.nodes || !this.state.links)
             return null;
 
-        return <D3View style={this.props.style} data={this.state.data} />
+        return  (<div className='canvas' ref={e => this.c = e}>
+                <div className='toolbar'>
+                    <Slider
+                        value={this.state.scale}
+                        onChange={e => this.setState({scale: e as any})}
+                        min={1}
+                        max={20}
+                    />
+                </div>
+                
+                <D3View scale={this.state.scale}  style={{
+                    ...this.props.style,
+                    marginTop: '20px'
+                }} 
+                width={this.state.width}
+                height={this.state.height}
+                nodes={this.state.nodes} 
+                links={this.state.links} />
+                
+            </div>)
     }
 
 }
