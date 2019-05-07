@@ -9,6 +9,7 @@ interface IProps{
 
 interface IState{
     data: any;
+    legend: any
     width: number;
     height: number;
 }
@@ -20,7 +21,8 @@ export default class D3View extends React.Component<IProps, any>{
         this.state = {
             data: undefined,
             width: 300,
-            height: 300
+            height: 300,
+            legend: {}
         }
     }
 
@@ -30,14 +32,23 @@ export default class D3View extends React.Component<IProps, any>{
 
         nodes.exit().remove();
 
+        const legend = this.state.legend;
+
         nodes.enter()
             .append('circle')
-            .classed('node', true)
-            
+            .attr('class', (d: any) => {
+
+                if(!(d.data.name in this.state.legend))
+                    legend[d.data.name] = 1
+                
+
+                return 'node ' + `node-${d.data.name}`
+            })
             .attr('r', 8)
             .attr('transform', this.nodePosition)
         ;
 
+        this.setState({legend: legend})
         nodes.transition()
             .attr('transform', this.nodePosition);
 
@@ -60,7 +71,7 @@ export default class D3View extends React.Component<IProps, any>{
         const width = this.state.width;
         const height = this.state.height;
         
-        const MARGIN = 10;
+        const MARGIN = 40;
 
         
         this.svg = d3.select(this.c)
@@ -126,9 +137,23 @@ export default class D3View extends React.Component<IProps, any>{
     }
 
     render(){
-        return (<svg className='canvas' ref={e => this.c = e}>
+        return (
+        <React.Fragment>
+           
+            <svg className='canvas' ref={e => this.c = e}>
                     <g className="links"></g>
                     <g className="nodes"></g>
-            </svg>);
+            </svg>
+            <svg className='legend' width={400} height={400}>
+                <g className="nodes">
+                    {
+                        Object.keys(this.state.legend).map((i, index) => 
+                        (<React.Fragment>
+                            <circle key={i + 'node'} className={`node node-${i}`} transform={`translate(10, ${10 + index*12})`} r={5}/>
+                            <text transform={`translate(20, ${15 + index*12})`}>{i}</text></React.Fragment>))
+                    }
+                </g>
+            </svg>
+        </React.Fragment>    );
     }
 }

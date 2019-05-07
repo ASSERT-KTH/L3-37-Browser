@@ -1,12 +1,24 @@
 import * as React from 'react';
-import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix } from 'antd';
+import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix, Tabs } from 'antd';
 import TreeView from './components/tree.view';
 
 const {SubMenu} = Menu;
+const TabPane = Tabs.TabPane;
 
 const { Header, Content, Footer, Sider } = Layout;
 
-class App extends React.Component<any, any>{
+interface AppState {
+  blendingModeEnabled: boolean;
+}
+
+interface IState{
+  app: AppState;
+  url: string,
+  collapsed: boolean,
+  validUrl: string
+}
+
+class App extends React.Component<any, IState>{
 
 
   constructor(props){
@@ -15,7 +27,10 @@ class App extends React.Component<any, any>{
     this.state = {
       url: 'http://www.google.com',
       collapsed: false,
-      validUrl: ''
+      validUrl: '',
+      app: {
+        blendingModeEnabled: false
+      }
     }
   }
 
@@ -82,7 +97,7 @@ class App extends React.Component<any, any>{
     } = this.props.form;
 
     // addonAfter={<Icon type="setting" />} 
-    return (<Form style={{width: '100%', margin: ''}} onSubmit={this.handleSubmit}>
+    return (<Form style={{width: '100%', marginLeft:'20%', margin: ''}} onSubmit={this.handleSubmit}>
               <Form.Item
               >
                  {getFieldDecorator('url', {
@@ -102,14 +117,21 @@ class App extends React.Component<any, any>{
 
     return ( <Layout style={{width:'100%', height: '100%'}}>
               
-                <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '50px', padding:'5px' }}>
+                <Header style={{ position: 'absolute', zIndex: 1, width: '80%', height: '50px', padding:'10px' }}>
                   
                   {this.renderBar()}
                 </Header>
-                <div className='main-container' style={{width:'100%', height: '100%', paddingTop: '48px'}} >
-                  <TreeView url={this.state.validUrl} />
-                  <webview ref={e => this.r = e} style={{width:'100%', height: '100%'}}  src={this.state.url} />
+
+                <div className="card-container">
+                  <Tabs tabPosition='top' className='tabs-container' type="card">
+                    <TabPane forceRender tab="Browser" key="1">
+                          {this.state.app.blendingModeEnabled && <TreeView url={this.state.validUrl} />}
+                          <webview ref={e => this.r = e} style={{width:'100%', height: '100%'}}  src={this.state.url} />
+                    </TabPane>
+                    { !this.state.app.blendingModeEnabled && <TabPane forceRender tab="Art" key="2"><TreeView url={this.state.validUrl} /></TabPane>}
+                  </Tabs>
                 </div>
+                
               </Layout>);
   }
 }
