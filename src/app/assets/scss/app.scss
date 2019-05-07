@@ -73,7 +73,7 @@ circle.node {
     }
 
     // Presentation tag
-    &-label, &-h1, &-h2, &-h3, &-h4, &-h5, &-h6, &-span, &-p, &-td, &-th, &-img, &-i, &-noscript, &-u{ // Presentation tags
+    &-label, &-h1, &-h2, &-h3, &-h4, &-h5, &-h6, &-span, &-p, &-td, &-th, &-img, &-i, &-noscript, &-u, &-b, &-cite{ // Presentation tags
         fill: orange;
         stroke: none
     }

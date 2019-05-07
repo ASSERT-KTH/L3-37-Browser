@@ -150,8 +150,8 @@ export default class D3View extends React.Component<IProps, any>{
                     {
                         Object.keys(this.state.legend).map((i, index) => 
                         (<React.Fragment>
-                            <circle key={i + 'node'} className={`node node-${i}`} transform={`translate(10, ${10 + index*12})`} r={5}/>
-                            <text transform={`translate(20, ${15 + index*12})`}>{i}</text></React.Fragment>))
+                            <circle key={index + 'node'} className={`node node-${i}`} transform={`translate(10, ${10 + index*12})`} r={5}/>
+                            <text key={index + 'text'} transform={`translate(20, ${15 + index*12})`}>{i}</text></React.Fragment>))
                     }
                 </g>
             </svg>

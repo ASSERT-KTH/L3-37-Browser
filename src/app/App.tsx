@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix, Tabs } from 'antd';
+import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix, Tabs, Button, Slider } from 'antd';
 import TreeView from './components/tree.view';
+import { SliderValue } from 'antd/lib/slider';
 
 const {SubMenu} = Menu;
 const TabPane = Tabs.TabPane;
@@ -16,6 +17,7 @@ interface IState{
   url: string,
   collapsed: boolean,
   validUrl: string
+  opacity: any;
 }
 
 class App extends React.Component<any, IState>{
@@ -28,8 +30,9 @@ class App extends React.Component<any, IState>{
       url: 'http://www.google.com',
       collapsed: false,
       validUrl: '',
+      opacity: 0.5,
       app: {
-        blendingModeEnabled: false
+        blendingModeEnabled: true
       }
     }
   }
@@ -97,16 +100,28 @@ class App extends React.Component<any, IState>{
     } = this.props.form;
 
     // addonAfter={<Icon type="setting" />} 
-    return (<Form style={{width: '100%', marginLeft:'20%', margin: ''}} onSubmit={this.handleSubmit}>
-              <Form.Item
-              >
-                 {getFieldDecorator('url', {
-                  })(
-                    <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url"/>
-                  )}
-            </Form.Item>
-              
+    return (<Form  onSubmit={this.handleSubmit}>
+               
+                  <Form.Item
+                    >
+                      {getFieldDecorator('url', {
+                        })(
+                          <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Url"/>
+                        )}
+                  </Form.Item>
             </Form>)
+  }
+
+  getBlendingTab = () => {
+    return (
+      <Slider
+              min={0}
+              max={1}
+              step={0.1}
+              onChange={e => this.setState({opacity: e})}
+              value={this.state.opacity}
+              style={{minWidth: 100}}
+            />)
   }
 
   render(){
@@ -124,9 +139,9 @@ class App extends React.Component<any, IState>{
 
                 <div className="card-container">
                   <Tabs tabPosition='top' className='tabs-container' type="card">
-                    <TabPane forceRender tab="Browser" key="1">
-                          {this.state.app.blendingModeEnabled && <TreeView url={this.state.validUrl} />}
-                          <webview ref={e => this.r = e} style={{width:'100%', height: '100%'}}  src={this.state.url} />
+                    <TabPane className={`main-container ${this.state.app.blendingModeEnabled? 'blending': ''}`} forceRender tab={this.state.app.blendingModeEnabled? this.getBlendingTab(): 'Browser'} key="1">
+                          {this.state.app.blendingModeEnabled && <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.validUrl} />}
+                          <webview ref={e => this.r = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
                     </TabPane>
                     { !this.state.app.blendingModeEnabled && <TabPane forceRender tab="Art" key="2"><TreeView url={this.state.validUrl} /></TabPane>}
                   </Tabs>
