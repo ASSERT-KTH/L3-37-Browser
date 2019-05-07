@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 
 interface IProps{
     data: any;
+    style?: React.CSSProperties;
 }
 
 interface IState{
@@ -20,8 +21,8 @@ export default class D3View extends React.Component<IProps, any>{
 
         this.state = {
             data: undefined,
-            width: 300,
-            height: 300,
+            width: 500,
+            height: 500,
             legend: {}
         }
     }
@@ -140,7 +141,7 @@ export default class D3View extends React.Component<IProps, any>{
         return (
         <React.Fragment>
            
-            <svg className='canvas' ref={e => this.c = e}>
+            <svg style={this.props.style} className='canvas' ref={e => this.c = e}>
                     <g className="links"></g>
                     <g className="nodes"></g>
             </svg>

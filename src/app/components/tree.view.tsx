@@ -5,6 +5,7 @@ import D3View from './d3.view';
 
 interface IProps{
     url: string;
+    style?: React.CSSProperties;
 }
 
 interface IState{
@@ -37,7 +38,7 @@ export default class TreeView extends React.Component<IProps, any>{
         if(!this.state.data)
             return null;
 
-        return <D3View data={this.state.data} />
+        return <D3View style={this.props.style} data={this.state.data} />
     }
 
 }
