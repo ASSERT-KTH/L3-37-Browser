@@ -1,21 +1,17 @@
 
 @import url(../../../../node_modules/antd/dist/antd.css);
 
+$barsize: 15px;
+
+.ant-layout{
+    background-color: #001529;
+}
+
 #root{
     width: 100%;
     height: 100%;
 }
 	
-path.link {
-    stroke: blue;
-    fill: none;
-    stroke-width: 2px;
-}
-
-circle.node {
-    stroke: blue;
-    fill: none;
-}
 
 .canvas {
     display: block;
@@ -27,21 +23,118 @@ circle.node {
 .main-container{
     position: relative;
 
-    $barsize: 45px;
+
     .canvas{
         position: absolute;
         top: 0;
         left: 0;
 
-        padding-top: $barsize;
-        opacity: 0.5;
     }
     webview{
         position: absolute;
         top:0;
         left:0;
 
-        padding-top: $barsize;
-        opacity: 0.5;
     }
+
+}
+
+
+path.link {
+    stroke: gray;
+    fill: none;
+    opacity: 0.5;
+    stroke-width: 2px;
+}
+
+circle.node {
+    fill: gray;
+    stroke: none;
+
+    // Metadata
+
+    &-head, &-meta{
+        fill: antiquewhite;
+    }
+
+    // Scripts and links
+    &-script{
+        fill: #1890ff;
+    }
+    &-style, &-link{
+        fill: magenta;
+    }
+
+    // Presentation tag
+    &-label, &-h1, &-h2, &-h3, &-h4, &-h5, &-h6, &-span, &-p, &-td, &-th, &-img, &-i, &-noscript, &-u, &-b, &-cite{ // Presentation tags
+        fill: orange;
+        stroke: none
+    }
+    // Input tags
+    &-input, &-option{ // Presentation tags
+        fill: green;
+        stroke: none
+
+    }
+
+    // Form
+    &-form, &-select{
+        fill: none;
+        stroke: olive;
+    }
+
+
+    // Action tags
+    &-a, &-button{ // Presentation tags
+        fill: red;
+        stroke: none
+    }
+
+    // Outside
+    &-iframe{
+        fill: black;
+    }
+
+    // Structural tags
+    &-div, &-section, &-table, &-tr, &-center, &-hr, &-br, &-tbody, &-thead, &-footer, &-body, &-ul, &-li, &-ol, &-html{
+        stroke: #1890ff;
+        fill: none;
+    }
+}
+
+.tabs-container{
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+
+    padding-top: $barsize;
+
+}
+
+.ant-tabs-tabpane-active,.ant-tabs-content{
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    background-color: white;
+}
+.ant-tabs-bar{
+    margin: 0;
+
+    display: flex;
+    flex-direction: row-reverse;
+
+    border: none;
+}
+
+.toolbar{
+    position: absolute;
+
+    top: 0px;
+
+    z-index: 2;
+
+    width: 100%;
+    height: 50px;;
 }

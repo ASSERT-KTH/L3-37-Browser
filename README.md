@@ -3,7 +3,7 @@
 
 Executable linux release available
 
-![Preview](docs/imgs/preview.png)
+![Preview](docs/imgs/brw.png)
 
 Input the url and press enter
 
