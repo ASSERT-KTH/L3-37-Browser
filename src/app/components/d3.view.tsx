@@ -8,13 +8,16 @@ interface IProps{
     links: any[];
     style?: React.CSSProperties;
     scale?: number;
+    rotation?: number;
+
+    dx?: number;
+    dy?: number;
 
     width: number;
     height: number;
 }
 
 interface IState{
-    legend: any
 }
 export default class D3View extends React.Component<IProps, IState>{
     
@@ -22,7 +25,6 @@ export default class D3View extends React.Component<IProps, IState>{
         super(props)
 
         this.state = {
-            legend: {}
         }
     }
 
@@ -36,7 +38,9 @@ export default class D3View extends React.Component<IProps, IState>{
     updateStyleAndAttrs() {
         const cx = this.props.width/2;
         const cy = this.props.height/2;
-        const legend = this.state.legend;
+
+        const dx = this.props.dx || 0;
+        const dy = this.props.dy || 0;
         
          d3.select(this.c)
           .selectAll('circle')
@@ -46,7 +50,10 @@ export default class D3View extends React.Component<IProps, IState>{
 
         d3.select(this.c)
         .selectAll('.nodes')  
-        .attr("transform", `translate(${cx}, ${cy})`)
+        .attr("transform", 
+            `translate(${cx + dx}, ${cy + dy}) 
+            scale(${this.props.scale || 1}, ${this.props.scale || 1})
+            rotate(${this.props.rotation||0})`)
 
 
         d3.select(this.c)
@@ -56,11 +63,13 @@ export default class D3View extends React.Component<IProps, IState>{
         .transition()
         .attr('d', this.linkPath);
 
-        // this.setState({legend})
-        
         d3.select(this.c)
         .selectAll('.links')  
-        .attr("transform", `translate(${cx}, ${cy})`)
+        .attr("transform", 
+        `translate(${cx + dx}, ${cy + dy}) 
+        scale(${this.props.scale || 1}, ${this.props.scale || 1} )
+        rotate(${this.props.rotation||0})`)
+
       }
 
     componentDidMount() {
@@ -76,6 +85,16 @@ export default class D3View extends React.Component<IProps, IState>{
         const nodes = this.props.nodes.map((i, index) => <circle r={8} className={`node node-${i.data.name}`} key={index + 'node'} />)
         const links = this.props.links.map((i, index) => <path className='link' key={index + 'path'} />)
 
+        const legend = {
+            'p': 'Data component (a, p, label, span, td, th, img)',
+            'div': 'Structural component (div, table, section)',
+            'meta': 'Metadata component',
+            'script': 'Script component',
+            'button': 'Trigger component',
+            'style': 'Style components (style, link)',
+            'input': 'Input component (input, option)',
+        }
+
         return (
         <React.Fragment>
             <svg style={this.props.style} 
@@ -89,16 +108,16 @@ export default class D3View extends React.Component<IProps, IState>{
                     {nodes}
                 </g>
             </svg>
-            {/*<svg style={this.props.style} className='legend' width={this.state.width} height={this.state.height}>
+            {<svg style={this.props.style} className='legend' width={this.props.width} height={this.props.height}>
                 <g className="nodes">
                     {
-                        Object.keys(this.state.legend).map((i, index) => 
+                        Object.keys(legend).map((i, index) => 
                         (<React.Fragment>
-                            <circle key={index + 'node'} className={`node node-${i}`} transform={`translate(10, ${10 + index*12})`} r={5}/>
-                            <text key={index + 'text'} transform={`translate(30, ${15 + index*12})`}>{i}</text></React.Fragment>))
+                            <circle key={index + 'node'} className={`node node-${i}`} transform={`translate(10, ${55 + index*22})`} r={5}/>
+                            <text key={index + 'text'} transform={`translate(30, ${59 + index*22})`}>{legend[i]}</text></React.Fragment>))
                     }
                 </g>
-                </svg>*/}
+                </svg>}
         </React.Fragment>    );
     }
 }

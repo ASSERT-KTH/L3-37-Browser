@@ -142,6 +142,7 @@ class App extends React.Component<any, IState>{
                     <TabPane className={`main-container ${this.state.app.blendingModeEnabled? 'blending': ''}`} forceRender tab={this.state.app.blendingModeEnabled? this.getBlendingTab(): 'Browser'} key="1">
                           {this.state.app.blendingModeEnabled && <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.validUrl} />}
                           <webview ref={e => this.r = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
+                    
                     </TabPane>
                     { !this.state.app.blendingModeEnabled && <TabPane forceRender tab="Art" key="2"><TreeView url={this.state.validUrl} /></TabPane>}
                   </Tabs>

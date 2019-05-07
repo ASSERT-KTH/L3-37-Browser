@@ -2,7 +2,7 @@ import * as React from 'react';
 import DomParserService from '../services/dom.parser';
 import { resolve } from 'inversify-react';
 import D3View from './d3.view';
-import { Slider } from 'antd';
+import { Slider, Card, InputNumber } from 'antd';
 import * as d3 from 'd3';
 interface IProps{
     url: string;
@@ -13,9 +13,12 @@ interface IState{
     nodes?: any[];
     links?: any[];
     scale: number;
+    rotation: number;
 
     width: number;
     height: number;
+    dx: number;
+    dy: number;
 }
 
 export default class TreeView extends React.Component<IProps, IState>{
@@ -31,7 +34,10 @@ export default class TreeView extends React.Component<IProps, IState>{
             links: [],
             scale: 1,
             width: 500,
-            height: 500
+            height: 500,
+            rotation: 0,
+            dx: 0,
+            dy: 0
         }
     }
 
@@ -41,7 +47,7 @@ export default class TreeView extends React.Component<IProps, IState>{
 
 
                 const root = d3.hierarchy(result);
-                const MARGIN = 30;
+                const MARGIN = 40;
 
                 const layout = d3.cluster().size([2 * Math.PI, Math.min(this.state.width, this.state.height)/2 - 2*MARGIN]);
                 layout(root);
@@ -80,16 +86,13 @@ export default class TreeView extends React.Component<IProps, IState>{
             return null;
 
         return  (<div className='canvas' ref={e => this.c = e}>
-                <div className='toolbar'>
-                    <Slider
-                        value={this.state.scale}
-                        onChange={e => this.setState({scale: e as any})}
-                        min={1}
-                        max={20}
-                    />
-                </div>
                 
-                <D3View scale={this.state.scale}  style={{
+                <D3View 
+                scale={this.state.scale}  
+                rotation={this.state.rotation}
+                dx={this.state.dx}
+                dy={this.state.dy}
+                style={{
                     ...this.props.style,
                     marginTop: '20px'
                 }} 
@@ -97,6 +100,40 @@ export default class TreeView extends React.Component<IProps, IState>{
                 height={this.state.height}
                 nodes={this.state.nodes} 
                 links={this.state.links} />
+
+                <Card className='toolbar' style={{ width: 300, right: '50px', top: '50px', height: '300px' }}>
+                    <div>
+                        <h4>Zoom</h4>
+                        <Slider
+                                value={this.state.scale}
+                                onChange={e => this.setState({scale: e as any})}
+                                min={1}
+                                max={20}
+                                step={0.1}
+                            />
+                    </div>
+
+                    <div>
+                        <h4>Rotation</h4>
+                        <Slider
+                                value={this.state.rotation}
+                                onChange={e => this.setState({rotation: e as any})}
+                                min={0}
+                                max={360}
+                                step={10}
+                            />
+                    </div>
+
+                    <div>
+                        <h4>X</h4>
+                        <InputNumber onChange={e => this.setState({dx: e})} value={this.state.dx} />
+                    </div>
+
+                    <div>
+                        <h4>Y</h4>
+                        <InputNumber onChange={e => this.setState({dy: e})} value={this.state.dy} />
+                    </div>
+                </Card>   
                 
             </div>)
     }
