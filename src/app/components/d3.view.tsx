@@ -33,6 +33,7 @@ export default class D3View extends React.Component<IProps, any>{
         nodes.enter()
             .append('circle')
             .classed('node', true)
+            
             .attr('r', 8)
             .attr('transform', this.nodePosition)
         ;

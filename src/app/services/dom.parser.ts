@@ -19,6 +19,7 @@ export default class DomParserService{
         if ( tree.childNodes ) {
             //TODO: Optimize later
             result.children = tree.childNodes.map(this.structureFromDOM);
+            
         }
         return result;
     }

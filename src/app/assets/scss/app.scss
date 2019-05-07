@@ -6,16 +6,6 @@
     height: 100%;
 }
 	
-path.link {
-    stroke: blue;
-    fill: none;
-    stroke-width: 2px;
-}
-
-circle.node {
-    stroke: blue;
-    fill: none;
-}
 
 .canvas {
     display: block;
@@ -43,5 +33,25 @@ circle.node {
 
         padding-top: $barsize;
         opacity: 0.5;
+    }
+}
+
+
+path.link {
+    stroke: gray;
+    fill: none;
+    opacity: 0.5;
+    stroke-width: 2px;
+}
+
+circle.node {
+    fill: #1890ff;
+    stroke: none;
+}
+
+.node{
+    // Separating tags by semantic
+    &-a{ // Presentation tags
+        
     }
 }
