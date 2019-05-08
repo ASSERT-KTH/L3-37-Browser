@@ -1,7 +1,9 @@
 
 # Mini browser through the looking glass
 
-L3-37 is a mini browser that superimposes a structural view of the web page, on top of the actual page. This browser is inspired by the [Web stalker](http://bak.spc.org/iod/nettime.html), as it aims at letting the users browse the web, while looking through the glass of web pages.
+L3-37 is a mini web browser that superimposes a view of the strucuture of the web page on top of the actual page. Our goal is to reveal and embody the organization and dynamics of software that runs the world wide web. Citizens interact with browsers worldwide, every day and we which to offer a looking through the glass of web content.
+
+This browser is developed as a tribute to the [Web stalker](http://bak.spc.org/iod/nettime.html), 
 
 ![Preview](docs/imgs/brw.png)
 
