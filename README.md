@@ -1,7 +1,7 @@
 
-# Mini browser electron app with structure rendering with d3
+# Mini browser through the looking glass
 
-Executable linux release available
+L3-37 is a mini browser that superimposes a structural view of the web page, on top of the actual page. This browser is inspired by the [Web stalker](http://bak.spc.org/iod/nettime.html), as it aims at letting the users browse the web, while looking through the glass of web pages.
 
 ![Preview](docs/imgs/brw.png)
 
