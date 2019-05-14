@@ -26,27 +26,28 @@ class App extends React.Component<any, IState>{
       collapsed: false,      
       opacity: 0.5,
     }
+
+  }
+
+  updateUrl = (e) => {
+    const url = e.target.src;
+
+    const {
+      setFieldsValue
+    } = this.props.form;
+
+    setFieldsValue({
+      url
+    })
+
+    this.setState({ url})
   }
 
   componentDidMount(){
     console.log(document.getElementById('view'))
     if(this.pageView){
-      this.pageView.addEventListener('did-start-loading', (e) => {
-       
-        if(this.pageView.src !== this.state.url){
-
-          const {
-            setFieldsValue
-          } = this.props.form;
-
-          setFieldsValue({
-            url: this.pageView.src
-          })
-        }
-      });
-      this.pageView.addEventListener('did-finish-load', (e) => {
-        this.setState({ url: this.pageView.src })
-      });
+      //this.pageView.addEventListener('did-start-loading', this.updateUrl);
+      this.pageView.addEventListener('did-finish-load', this.updateUrl);
     }
   }
 
@@ -67,6 +68,8 @@ class App extends React.Component<any, IState>{
       try {
         let url = this.getURL(values.url);
         this.setState({url: url.toString(), isURLValid: true});
+
+        this.pageView.src = url;
       }
       catch(exc) {
         this.setState({isURLValid: false});
@@ -95,7 +98,7 @@ class App extends React.Component<any, IState>{
                   <Form.Item>
                     {
                       getFieldDecorator('url', {})(
-                        <Input prefix={<Icon type={this.state.isURLValid?"cloud":"error"} style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Url"/>
+                        <Input prefix={<Icon type={this.state.isURLValid?"cloud":"ban"} style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Url"/>
                       )
                     }
                   </Form.Item>
@@ -113,8 +116,9 @@ class App extends React.Component<any, IState>{
                           value={this.state.opacity} 
                           style={{minWidth: 100}
                         }/>}>
+
                           <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.url} />
-                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
+                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}} src='http://google.com'  />
                     </TabPane>
                   </Tabs>
                 </div>

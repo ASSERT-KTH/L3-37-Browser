@@ -161,8 +161,8 @@ export default class TreeView extends React.Component<IProps, IState>{
                                 value={this.state.scale}
                                 onChange={e => this.setState({scale: e as any})}
                                 min={1}
-                                max={20}
-                                step={0.1}
+                                max={5}
+                                step={0.05}
                             />
                     </div>
 
