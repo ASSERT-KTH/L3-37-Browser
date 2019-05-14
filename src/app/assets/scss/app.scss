@@ -138,3 +138,61 @@ circle.node {
     width: 100%;
     height: 50px;;
 }
+
+.legend-item {
+    padding: .1em;
+    margin: .1em;
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: white;
+    border-radius: 3px;
+    
+    // Metadata
+    &-head, &-meta{
+        background-color: antiquewhite;
+        color: darkgray;
+    }
+
+    // Scripts and links
+    &-script{
+        background-color: #1890ff;
+    }
+    &-style, &-link{
+        background-color: magenta;
+    }
+
+    // Presentation tag
+    &-label, &-h1, &-h2, &-h3, &-h4, &-h5, &-h6, &-span, &-p, &-td, &-th, &-img, &-i, &-noscript, &-u, &-b, &-cite{ // Presentation tags
+        background-color: orange;
+        stroke: none
+    }
+    // Input tags
+    &-input, &-option{ // Presentation tags
+        background-color: green;
+        stroke: none
+
+    }
+
+    // Form
+    &-form, &-select{
+        background-color: olive;
+    }
+
+
+    // Action tags
+    &-a, &-button{ // Presentation tags
+        background-color: red;
+        stroke: none
+    }
+
+    // Outside
+    &-iframe{
+        background-color: black;
+    }
+
+    // Structural tags
+    &-div, &-section, &-table, &-tr, &-center, &-hr, &-br, &-tbody, &-thead, &-footer, &-body, &-ul, &-li, &-ol, &-html{
+        color: #1890ff;
+    }
+}

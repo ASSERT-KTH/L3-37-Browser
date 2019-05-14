@@ -82,6 +82,54 @@ export default class TreeView extends React.Component<IProps, IState>{
 
     render(){
 
+        
+        const tags = [
+            'head',
+            'meta',
+            'script',
+            'style',
+            'link',
+            'label',
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+            'span',
+            'p',
+            'td',
+            'th',
+            'img',
+            'i',
+            'noscript',
+            'u',
+            'b',
+            'cite',
+            'input',
+            'option',
+            'form',
+            'select',
+            'a',
+            'button',
+            'iframe',
+            'div',
+            'section',
+            'table',
+            'tr',
+            'center',
+            'hr',
+            'br',
+            'tbody',
+            'thead',
+            'footer',
+            'body',
+            'ul',
+            'li',
+            'ol',
+            'html'
+        ];
+
         if(!this.state.nodes || !this.state.links)
             return null;
 
@@ -101,7 +149,12 @@ export default class TreeView extends React.Component<IProps, IState>{
                 nodes={this.state.nodes} 
                 links={this.state.links} />
 
-                <Card className='toolbar' style={{ width: 300, right: '50px', top: '50px', height: '300px' }}>
+                <Card className='toolbar' style={{ width: 300,
+                     right: '50px', top: '50px', height: 470 }}>
+                    <div id="legend">
+                        { tags.map(item => <span className={`legend-item legend-item-${item}`}>{item}</span>) }
+                    </div>
+
                     <div>
                         <h4>Zoom</h4>
                         <Slider
@@ -133,6 +186,8 @@ export default class TreeView extends React.Component<IProps, IState>{
                         <h4>Y</h4>
                         <InputNumber onChange={e => this.setState({dy: e})} value={this.state.dy} />
                     </div>
+
+
                 </Card>   
                 
             </div>)

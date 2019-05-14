@@ -85,16 +85,6 @@ export default class D3View extends React.Component<IProps, IState>{
         const nodes = this.props.nodes.map((i, index) => <circle r={8} className={`node node-${i.data.name}`} key={index + 'node'} />)
         const links = this.props.links.map((i, index) => <path className='link' key={index + 'path'} />)
 
-        const legend = {
-            'p': 'Data component (a, p, label, span, td, th, img)',
-            'div': 'Structural component (div, table, section)',
-            'meta': 'Metadata component',
-            'script': 'Script component',
-            'button': 'Trigger component',
-            'style': 'Style components (style, link)',
-            'input': 'Input component (input, option)',
-        }
-
         return (
         <React.Fragment>
             <svg style={this.props.style} 
@@ -108,16 +98,6 @@ export default class D3View extends React.Component<IProps, IState>{
                     {nodes}
                 </g>
             </svg>
-            {<svg style={this.props.style} className='legend' width={this.props.width} height={this.props.height}>
-                <g className="nodes">
-                    {
-                        Object.keys(legend).map((i, index) => 
-                        (<React.Fragment>
-                            <circle key={index + 'node'} className={`node node-${i}`} transform={`translate(10, ${55 + index*22})`} r={5}/>
-                            <text key={index + 'text'} transform={`translate(30, ${59 + index*22})`}>{legend[i]}</text></React.Fragment>))
-                    }
-                </g>
-                </svg>}
         </React.Fragment>    );
     }
 }
