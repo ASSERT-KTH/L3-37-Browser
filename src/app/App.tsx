@@ -9,22 +9,21 @@ const TabPane = Tabs.TabPane;
 const { Header, Content, Footer, Sider } = Layout;
 
 interface IState{
-  url: string,
-  collapsed: boolean,
-  validUrl: string
-  opacity: any;
+  url :string,
+  isURLValid :boolean
+  collapsed :boolean,
+  opacity :any;
 }
 
 class App extends React.Component<any, IState>{
-
 
   constructor(props){
     super(props)
 
     this.state = {
       url: 'http://www.google.com',
-      collapsed: false,
-      validUrl: '',
+      isURLValid: true,
+      collapsed: false,      
       opacity: 0.5,
     }
   }
@@ -46,33 +45,31 @@ class App extends React.Component<any, IState>{
         }
       });
       this.pageView.addEventListener('did-finish-load', (e) => {
-        this.setState({
-          validUrl: this.pageView.src
-        })
+        this.setState({ url: this.pageView.src })
       });
     }
   }
 
-  parseUrl = (val) => {
-    let https = val.slice(0, 8).toLowerCase();
-    let http = val.slice(0, 7).toLowerCase();
-    if (https === 'https://') {
-      return val;
-    } else if (http === 'http://') {
-      return val;
-    } else {
-
-      return 'http://' + val;
+  getURL = (value :string) : URL => {
+    if (!value.startsWith('http://') || !value.startsWith('https://')) {
+      value = 'http://' + value;
     }
+    return new URL(value);    
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (evt) => {
+    evt.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const val = this.parseUrl(values.url);
-
-        this.setState({url: val})
+      console.log("validating the parameters");
+      if(err) {
+        return;
+      }
+      try {
+        let url = this.getURL(values.url);
+        this.setState({url: url.toString(), isURLValid: true});
+      }
+      catch(exc) {
+        this.setState({isURLValid: false});
       }
     });
   }
@@ -98,7 +95,7 @@ class App extends React.Component<any, IState>{
                   <Form.Item>
                     {
                       getFieldDecorator('url', {})(
-                        <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Url"/>
+                        <Input prefix={<Icon type={this.state.isURLValid?"cloud":"error"} style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Url"/>
                       )
                     }
                   </Form.Item>
@@ -116,7 +113,7 @@ class App extends React.Component<any, IState>{
                           value={this.state.opacity} 
                           style={{minWidth: 100}
                         }/>}>
-                          <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.validUrl} />
+                          <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.url} />
                           <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
                     </TabPane>
                   </Tabs>
