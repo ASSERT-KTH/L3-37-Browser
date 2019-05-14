@@ -31,23 +31,23 @@ class App extends React.Component<any, IState>{
 
   componentDidMount(){
     console.log(document.getElementById('view'))
-    if(this.r){
-      this.r.addEventListener('did-start-loading', (e) => {
+    if(this.pageView){
+      this.pageView.addEventListener('did-start-loading', (e) => {
        
-        if(this.r.src !== this.state.url){
+        if(this.pageView.src !== this.state.url){
 
           const {
             setFieldsValue
           } = this.props.form;
 
           setFieldsValue({
-            url: this.r.src
+            url: this.pageView.src
           })
         }
       });
-      this.r.addEventListener('did-finish-load', (e) => {
+      this.pageView.addEventListener('did-finish-load', (e) => {
         this.setState({
-          validUrl: this.r.src
+          validUrl: this.pageView.src
         })
       });
     }
@@ -77,15 +77,16 @@ class App extends React.Component<any, IState>{
     });
   }
 
-  r: any;
+  pageView: any;
 
-  getValue = () => {
-    if(this.r)
-        return this.r.src
+  getPageSrc = () => {
+    if(this.pageView) {
+      return this.pageView.src
+    }
     return '';
   }
 
-  render(){
+  render() {
 
     const {
       getFieldDecorator
@@ -116,7 +117,7 @@ class App extends React.Component<any, IState>{
                           style={{minWidth: 100}
                         }/>}>
                           <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.validUrl} />
-                          <webview ref={e => this.r = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
+                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}}  src={this.state.url} />
                     </TabPane>
                   </Tabs>
                 </div>
