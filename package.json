@@ -1,6 +1,6 @@
 {
-  "name": "domer",
-  "productName": "Domer",
+  "name": "L337",
+  "productName": "L337",
   "version": "0.1.0",
   "private": true,
   "main": "src/main.js",
@@ -151,6 +151,10 @@
     "presets": [
       "react-app"
     ]
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Jacarte/L3-37-Browser"
   },
   "devDependencies": {
     "@types/d3": "^5.7.2",
