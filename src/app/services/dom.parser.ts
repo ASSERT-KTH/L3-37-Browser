@@ -29,6 +29,17 @@ export default class DomParserService{
         return this.structureFromDOM(tree);
     }
 
+    public getContent(path): Promise<string>{
+        return new Promise<string>((resolve, reject) =>{
+            if(path){
+                reqp(path).then((content) => {
+                    resolve(content)
+                })
+                .catch(err => reject(err))
+            }
+        });
+    }
+
     public getTree(path): Promise<any>{
         
         return new Promise<any>((resolve, reject) => {

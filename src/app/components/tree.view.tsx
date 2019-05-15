@@ -19,6 +19,8 @@ interface IState{
     height: number;
     dx: number;
     dy: number;
+
+    processing: boolean;
 }
 
 export default class TreeView extends React.Component<IProps, IState>{
@@ -37,12 +39,14 @@ export default class TreeView extends React.Component<IProps, IState>{
             height: 500,
             rotation: 0,
             dx: 0,
-            dy: 0
+            dy: 0,
+            processing: false
         }
     }
 
     componentWillReceiveProps(nextProps: IProps){
         if(nextProps.url != this.props.url){
+            this.setState({processing: true})
             this.domParser.getTree(nextProps.url).then(result => {
 
 
@@ -53,7 +57,9 @@ export default class TreeView extends React.Component<IProps, IState>{
                 layout(root);
 
                 this.setState({nodes: root.descendants()
-                    , links: root.links()})
+                    , links: root.links(), processing: false})
+            }).catch(error => {
+                this.setState({processing: false})
             });
         }
     }
@@ -154,6 +160,7 @@ export default class TreeView extends React.Component<IProps, IState>{
                     <div id="legend">
                         { tags.map(item => <span className={`legend-item legend-item-${item}`}>{item}</span>) }
                     </div>
+                    {!this.state.processing && <React.Fragment>
 
                     <div>
                         <h4>Zoom</h4>
@@ -166,27 +173,27 @@ export default class TreeView extends React.Component<IProps, IState>{
                             />
                     </div>
 
-                    <div>
-                        <h4>Rotation</h4>
-                        <Slider
-                                value={this.state.rotation}
-                                onChange={e => this.setState({rotation: e as any})}
-                                min={0}
-                                max={360}
-                                step={10}
-                            />
-                    </div>
+                        <div>
+                            <h4>Rotation</h4>
+                            <Slider
+                                    value={this.state.rotation}
+                                    onChange={e => this.setState({rotation: e as any})}
+                                    min={0}
+                                    max={360}
+                                    step={10}
+                                />
+                        </div>
 
-                    <div>
-                        <h4>X</h4>
-                        <InputNumber onChange={e => this.setState({dx: e})} value={this.state.dx} />
-                    </div>
+                        <div>
+                            <h4>X</h4>
+                            <InputNumber onChange={e => this.setState({dx: e})} value={this.state.dx} />
+                        </div>
 
-                    <div>
-                        <h4>Y</h4>
-                        <InputNumber onChange={e => this.setState({dy: e})} value={this.state.dy} />
-                    </div>
-
+                        <div>
+                            <h4>Y</h4>
+                            <InputNumber onChange={e => this.setState({dy: e})} value={this.state.dy} />
+                        </div>
+                    </React.Fragment>}
 
                 </Card>   
                 

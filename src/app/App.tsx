@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix, Tabs, Button, Slider } from 'antd';
 import TreeView from './components/tree.view';
 import { SliderValue } from 'antd/lib/slider';
+import StalkerComponent from './components/stalker';
 
 const {SubMenu} = Menu;
 const TabPane = Tabs.TabPane;
@@ -21,7 +22,7 @@ class App extends React.Component<any, IState>{
     super(props)
 
     this.state = {
-      url: 'http://www.google.com',
+      url: 'http://wikipedia.com',
       isURLValid: true,
       collapsed: false,      
       opacity: 0.5,
@@ -102,8 +103,14 @@ class App extends React.Component<any, IState>{
                       )
                     }
                   </Form.Item>
+                  {/*<StalkerComponent 
+                    interval={10000}
+                    url={this.state.url} 
+                  onChange={e => this.pageView.src = e} />*/}
                 </Form>
                 </Header>
+
+
                 <div className="card-container">
                   <Tabs tabPosition='top' className='tabs-container' type="card">
                     <TabPane className='main-container blending' forceRender key="1" 
@@ -118,7 +125,7 @@ class App extends React.Component<any, IState>{
                         }/>}>
 
                           <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.url} />
-                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}} src='http://google.com'  />
+                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}} src='http://wikipedia.com'  />
                     </TabPane>
                   </Tabs>
                 </div>
