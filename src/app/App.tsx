@@ -22,7 +22,7 @@ class App extends React.Component<any, IState>{
     super(props)
 
     this.state = {
-      url: 'http://wikipedia.com',
+      url: 'http://google.com',
       isURLValid: true,
       collapsed: false,      
       opacity: 0.5,
@@ -125,7 +125,7 @@ class App extends React.Component<any, IState>{
                         }/>}>
 
                           <TreeView style={{opacity: 1 - this.state.opacity}} url={this.state.url} />
-                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}} src='http://wikipedia.com'  />
+                          <webview ref={e => this.pageView = e} style={{width:'100%', height: '100%', opacity: this.state.opacity}} src='http://google.com'  />
                     </TabPane>
                   </Tabs>
                 </div>
