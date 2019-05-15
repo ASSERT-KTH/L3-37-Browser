@@ -10,7 +10,7 @@ os:
   - osx
   - windows
 
-scripts:
+script:
   - echo "Deploy linux version to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; npm run package-linux; fi
 
