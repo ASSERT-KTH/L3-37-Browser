@@ -1,7 +1,7 @@
 {
   "name": "L337",
   "productName": "L337",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "src/main.js",
   "homepage": "./",
@@ -85,7 +85,9 @@
     "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
     "package-win": "npm run build && electron-packager . domer --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Domer\"",
     "package-linux": "npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
-    "electron-build": "electron-builder"
+    "electron-build": "electron-builder",
+    "electron-publish": "GH_TOKEN=53b6bf0aef968946808cc7d17425c241314c7287 electron-builder --publish onTag"
+
   },
   "eslintConfig": {
     "extends": "react-app"
