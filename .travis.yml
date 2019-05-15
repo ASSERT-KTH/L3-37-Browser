@@ -12,10 +12,10 @@ os:
 
 script:
   - echo "Deploy linux version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; npm run package-linux; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; npm run package-linux;
 
   - echo "Deploy windows version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; npm run package; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; npm run package;
 
   - echo "Deploy mac version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; npm run package-win; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; npm run package-win;
