@@ -11,6 +11,9 @@ os:
   - windows
 
 script:
+  - echo "Installing"
+  - npm install
+  
   - echo "Deploy linux version to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]];then npm run package-linux; fi
 
