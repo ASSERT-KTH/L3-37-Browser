@@ -11,5 +11,7 @@ os:
   - windows
 
 script:
+  - echo "Installing"
   - npm install
-  - npm run electron-publish
+  - npm run build
+  - if [[ "$TRAVIS_BRANCH" == "master" ]];then npm run electron-publish; fi
