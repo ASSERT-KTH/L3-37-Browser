@@ -8,10 +8,9 @@ node_js:
 os: 
   - linux
   - osx
-  - windows
 
 script:
   - echo "Installing"
   - npm install
   - npm run build
-  - if [[ "$TRAVIS_BRANCH" == "master" ]];then npm run electron-publish; fi
+  - npm run electron-publish

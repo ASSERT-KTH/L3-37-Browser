@@ -90,7 +90,7 @@
     "package-win": "npm run build && electron-packager . domer --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Domer\"",
     "package-linux": "npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
     "electron-build": "electron-builder build",
-    "electron-publish": "electron-builder --publish always"
+    "electron-publish": "electron-builder --publish onTag"
 
   },
   "eslintConfig": {
