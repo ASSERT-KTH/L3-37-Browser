@@ -15,10 +15,10 @@ script:
   - npm install
 
   - echo "Deploy linux version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]];then npm run package-linux; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]];then npm run electron-build; fi
 
   - echo "Deploy windows version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]];then npm run package; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]];then npm run electron-build; fi
 
   - echo "Deploy mac version to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "windows" ]];then npm run package-win; fi
+  - if [[ "$TRAVIS_BRANCH" == "feature/travis" ]] && [[ "$TRAVIS_OS_NAME" == "windows" ]];then npm run electron-build; fi
