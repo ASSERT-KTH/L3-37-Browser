@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { Layout, Menu, Breadcrumb, Form, Input, Icon, Affix, Tabs, Button, Slider } from 'antd';
+import { Layout, Form, Input, Icon, Tabs, Slider } from 'antd';
 import TreeView from './components/tree.view';
-import { SliderValue } from 'antd/lib/slider';
-import StalkerComponent from './components/stalker';
 
-const {SubMenu} = Menu;
 const TabPane = Tabs.TabPane;
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header } = Layout;
 
 interface IState{
   url :string,
@@ -53,7 +50,7 @@ class App extends React.Component<any, IState>{
   }
 
   getURL = (value :string) : URL => {
-    if (!value.startsWith('http://') || !value.startsWith('https://')) {
+    if (!/https?:\/\//.test(value)) {
       value = 'http://' + value;
     }
     return new URL(value);    

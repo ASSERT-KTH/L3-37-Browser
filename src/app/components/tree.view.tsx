@@ -45,7 +45,7 @@ export default class TreeView extends React.Component<IProps, IState>{
     }
 
     componentWillReceiveProps(nextProps: IProps){
-        if(nextProps.url != this.props.url){
+        if(nextProps.url !== this.props.url){
             this.setState({processing: true})
             this.domParser.getTree(nextProps.url).then(result => {
 
