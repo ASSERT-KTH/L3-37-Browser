@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import 'reflect-metadata';
 //import reqp from 'request-promise'
 
-//const electron = (window as any).require('electron');
+// const electron = (window as any).require('electron');
 //const parser = electron.remote.require('node-html-parser');
 
 
