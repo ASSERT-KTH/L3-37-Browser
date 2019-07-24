@@ -1,5 +1,5 @@
 
-# Mini browser through the looking glass
+# Mini browser through the looking glass [![Build Status](https://travis-ci.org/Jacarte/L3-37-Browser.svg?branch=master)](https://travis-ci.org/Jacarte/L3-37-Browser)
 
 L3-37 is a mini web browser that superimposes a view of the strucuture of the web page on top of the actual page. Our goal is to reveal and embody the organization and dynamics of software that runs the world wide web. Citizens interact with browsers worldwide, every day and we which to offer a looking through the glass of web content.
 
