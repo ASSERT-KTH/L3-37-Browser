@@ -13,22 +13,10 @@ Input the url and press enter
 
 ```
 npm run start
-npm run watch:css
 npm run electron-dev
 ```
 
-
-## Compile linux (MACOS)
-
-1. ```bash
-    brew install fakeroot dpkg 
-    ```
-2. ```
-    npm run package-linux
-    ```
-
-
-## Tips
+## Developing tips
 
 
 ### Access electron from host
@@ -38,3 +26,4 @@ const electron = window.require('electron');
 const fs = electron.remote.require('fs');
 const ipcRenderer  = electron.ipcRenderer;
 ```
+### Webview opened issues
