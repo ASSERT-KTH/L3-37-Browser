@@ -26,4 +26,8 @@ const electron = window.require('electron');
 const fs = electron.remote.require('fs');
 const ipcRenderer  = electron.ipcRenderer;
 ```
-### Webview opened issues
+## See also
+
+* [Browser art on runme.org](http://runme.org/categories/+browser%20art/)
+* [Net Art Anthology](https://anthology.rhizome.org/)
+
