@@ -83,6 +83,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "electron-dev": "NODE_ENV=development ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-win": "set NODE_ENV=development set ELECTRON_START_URL=http://localhost:3000 electron .",
     "electron-prod": "npm run build && electron .",
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
