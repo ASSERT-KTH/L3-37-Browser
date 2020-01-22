@@ -13,7 +13,10 @@ Input the url and press enter
 
 ```
 npm run start
+# if MacOS or linux
 npm run electron-dev
+# else
+npm run electron-win
 ```
 
 ## Developing tips
