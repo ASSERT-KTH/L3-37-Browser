@@ -7,7 +7,9 @@
   "homepage": "./",
   "build": {
     "appId": "l337",
-    "files": ["**"],
+    "files": [
+      "**"
+    ],
     "directories": {
       "buildResources": "build"
     }
@@ -83,7 +85,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "electron-dev": "NODE_ENV=development ELECTRON_START_URL=http://localhost:3000 electron .",
-    "electron-win": "set NODE_ENV=development set ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-win": "set NODE_ENV=development & set ELECTRON_START_URL=http://localhost:3000 & electron .",
     "electron-prod": "npm run build && electron .",
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
@@ -92,7 +94,6 @@
     "package-linux": "npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
     "electron-build": "electron-builder build",
     "electron-publish": "electron-builder --publish always"
-
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -160,8 +161,8 @@
     ]
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Jacarte/L3-37-Browser"
+    "type": "git",
+    "url": "https://github.com/Jacarte/L3-37-Browser"
   },
   "devDependencies": {
     "@types/d3": "^5.7.2",
