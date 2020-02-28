@@ -1,11 +1,8 @@
-
 @import url(../../../../node_modules/antd/dist/antd.css);
+@import url(header.scss);
+@import url(cookieBar.scss);
 
 $barsize: 15px;
-
-.ant-layout{
-    background-color: #001529;
-}
 
 #root{
     width: 100%;
@@ -13,7 +10,7 @@ $barsize: 15px;
 }
 	
 
-.canvas {
+.canvas { 
     display: block;
     margin: 0 auto;
     width: 100%;
@@ -196,3 +193,5 @@ circle.node {
         color: #1890ff;
     }
 }
+ 
+

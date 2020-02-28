@@ -7,19 +7,14 @@ const electron = (window as any).require('electron');
 const reqp = electron.remote.require('request-promise');
 
 @injectable()
-export default class DomParserService{
-
-   /* 
-    }
-
-    */
+export default class DomParserService {
 
     structureFromDOM = (tree) => {
-        let result  = { name: tree.nodeName, children: []};
-        if ( tree.childNodes ) {
+        let result = { name: tree.nodeName, children: [] };
+        if (tree.childNodes) {
             //TODO: Optimize later
             result.children = tree.childNodes.map(this.structureFromDOM);
-            
+
         }
         return result;
     }
@@ -29,22 +24,22 @@ export default class DomParserService{
         return this.structureFromDOM(tree);
     }
 
-    public getContent(path): Promise<string>{
-        return new Promise<string>((resolve, reject) =>{
-            if(path){
+    public getContent(path): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            if (path) {
                 reqp(path).then((content) => {
                     resolve(content)
                 })
-                .catch(err => reject(err))
+                    .catch(err => reject(err))
             }
         });
     }
 
-    public getTree(path): Promise<any>{
-        
+    public getTree(path): Promise<any> {
+
         return new Promise<any>((resolve, reject) => {
 
-            if(path){
+            if (path) {
                 reqp(path).then((content) => {
                     const tree = this.structureFromHTML(content);
                     resolve(tree)

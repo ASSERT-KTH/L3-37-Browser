@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,CAAA;EACT,gBAAgB,EAAE,KAAK;CACvB",
+    "sources": [
+        "cookieBar.scss"
+    ],
+    "names": [],
+    "file": "cookieBar.css"
+}
