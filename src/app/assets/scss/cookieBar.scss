@@ -3,3 +3,18 @@
 #CookieBar{
  background-color: white;   
 }
+
+.sideCookie{
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    margin: 3px 3px;
+}
+
+#cookieInfoCard{
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    border: solid;
+    z-index: 2;
+}

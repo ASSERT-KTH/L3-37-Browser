@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Layout, Form, Tabs, Slider } from 'antd';
 import TreeView from './components/tree.view';
-import { CookiesSideBar } from './components/cookiesSideBar';
+import { CookiesSideBar } from './components/cookieViz/cookiesSideBar';
 import { MainMenu } from './components/mainMenu';
 import { getAllCookies, getCookiesFrom } from './services/cookies'
 
@@ -30,8 +30,10 @@ interface IState {
   isURLValid: boolean,
   collapsed: boolean,
   opacity: any,
-  height: any,
+  height: number,
   menuItems: IMenuItem[],
+  cookies: any,
+  loading: boolean,
 }
 
 
@@ -53,6 +55,8 @@ class App extends React.Component<any, IState>{
         { id: '4', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: "check-circle" },
         { id: '5', selected: true, name: "BROWSER", title: 'Browser', icon: "global" },
       ],
+      cookies: [],
+      loading: false,
     }
   }
 
@@ -66,8 +70,8 @@ class App extends React.Component<any, IState>{
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     if (this.pageView) {
-      //this.pageView.addEventListener('did-start-loading', this.updateUrl);
-      this.pageView.addEventListener('did-finish-load', this.updateUrl);
+      // this.pageView.addEventListener('did-start-loading', this.startLoading);
+      this.pageView.addEventListener('did-finish-load', this.finishLoad);
     }
   }
 
@@ -76,6 +80,22 @@ class App extends React.Component<any, IState>{
   }
 
   updateWindowDimensions = () => { this.setState({ height: window.innerHeight }); }
+
+  // startLoading = (e) => {
+  //   this.setState({ loading: true });
+  //   console.log('start loading', this.state.loading)
+  // }
+
+  finishLoad = (e) => {
+    this.updateUrl(e);
+    this.updateCookies();
+    this.setState({ loading: false });
+  }
+
+  async updateCookies() {
+    const cookies = await getCookiesFrom(this.state.url);
+    this.setState({ cookies });
+  }
 
   updateUrl = (e) => {
     const url = e.target.src;
@@ -101,8 +121,8 @@ class App extends React.Component<any, IState>{
         let url = this.getURL(values.url);
         this.setState({ url: url.toString(), isURLValid: true });
         this.pageView.src = url;
-        getCookiesFrom(url.toString());
-        getAllCookies();
+        this.setState({ loading: true });
+
       }
       catch (exc) {
         this.setState({ isURLValid: false });
@@ -153,7 +173,7 @@ class App extends React.Component<any, IState>{
         ></MainMenu>
         {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
 
-        {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar contentHeight={contentHeight}></CookiesSideBar> : <></>}
+        {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar contentHeight={contentHeight} cookies={this.state.cookies} loading={this.state.loading}></CookiesSideBar> : <></>}
 
         <Content style={{ marginTop: 40, height: contentHeight }}>
           <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%', opacity: this.state.opacity }} src='http://google.com' />
