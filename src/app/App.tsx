@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { Layout, Form, Tabs, Slider } from 'antd';
 import TreeView from './components/tree.view';
 import { CookiesSideBar } from './components/cookieViz/cookiesSideBar';
+import { CookiesViz } from './components/cookieViz/cookiesViz';
 import { MainMenu } from './components/mainMenu';
 import { getAllCookies, getCookiesFrom } from './services/cookies'
 
@@ -31,9 +32,11 @@ interface IState {
   collapsed: boolean,
   opacity: any,
   height: number,
+  width: number,
   menuItems: IMenuItem[],
   cookies: any,
   loading: boolean,
+  userCookies: any
 }
 
 
@@ -48,6 +51,7 @@ class App extends React.Component<any, IState>{
       collapsed: false,
       opacity: 0.9,
       height: 800,
+      width: 1200,
       menuItems: [
         { id: '1', selected: false, name: "SOUNDVIZ", title: 'Sound Visualization', icon: "smile" },
         { id: '2', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: "heart" },
@@ -57,6 +61,7 @@ class App extends React.Component<any, IState>{
       ],
       cookies: [],
       loading: false,
+      userCookies: []
     }
   }
   // COMPONENT ACTIONS
@@ -65,6 +70,7 @@ class App extends React.Component<any, IState>{
     window.addEventListener('resize', this.updateWindowDimensions);
     if (this.pageView) {
       // this.pageView.addEventListener('did-start-loading', this.startLoading);
+      this.updateUserCookies();
       this.pageView.addEventListener('did-finish-load', this.finishLoad);
     }
   }
@@ -76,7 +82,7 @@ class App extends React.Component<any, IState>{
   //-----------------------------------------------------------------------------------
 
   // Update windows dimensions
-  updateWindowDimensions = () => { this.setState({ height: window.innerHeight }); }
+  updateWindowDimensions = () => { this.setState({ height: window.innerHeight, width: window.innerWidth }); }
 
 
   isActiveView(name: String, arrMenu: Object[]): Boolean {
@@ -106,12 +112,18 @@ class App extends React.Component<any, IState>{
   finishLoad = (e) => {
     this.updateUrl(e);
     this.updateCookies();
+    this.updateUserCookies();
     this.setState({ loading: false });
   }
 
   async updateCookies() {
     const cookies = await getCookiesFrom(this.state.url);
     this.setState({ cookies });
+  }
+
+  async updateUserCookies() {
+    const userCookies = await getAllCookies();
+    this.setState({ userCookies })
   }
 
   updateUrl = (e) => {
@@ -200,6 +212,7 @@ class App extends React.Component<any, IState>{
         ></CookiesSideBar> : <></>}
 
         <Content style={{ marginTop: 40, height: contentHeight }}>
+          <CookiesViz userCookies={this.state.userCookies} height={this.state.height} width={this.state.width} marginTop={40} marginLeft={45} />
           <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%', opacity: this.state.opacity }} src='http://google.com' />
         </Content>
 

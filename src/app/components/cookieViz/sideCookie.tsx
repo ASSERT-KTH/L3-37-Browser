@@ -4,10 +4,11 @@ interface ISideCookieProps {
     id: number,
     cookie: any,
     handleOverOut: any,
-    setSelectCookie: any
+    setSelectCookie: any,
+    size: number
 }
 
-export const SideCookie: React.FC<ISideCookieProps> = ({ id, cookie, handleOverOut, setSelectCookie }): JSX.Element => {
+export const SideCookie: React.FC<ISideCookieProps> = ({ id, cookie, handleOverOut, setSelectCookie, size }): JSX.Element => {
 
     const handleEnter = () => {
         handleOverOut(true);
@@ -19,6 +20,7 @@ export const SideCookie: React.FC<ISideCookieProps> = ({ id, cookie, handleOverO
             className="sideCookie"
             onMouseEnter={() => handleEnter()}
             onMouseOut={() => handleOverOut(false)}
+            style={{ width: size, height: size }}
         >
 
         </div>

@@ -5,10 +5,12 @@
 }
 
 .sideCookie{
-    background-color: red;
-    width: 10px;
-    height: 10px;
+    background-color: #333333;
     margin: 3px 3px;
+}
+
+.full-width{
+    width: 100%;
 }
 
 #cookieInfoCard{
@@ -16,5 +18,45 @@
     top: 20px;
     left: 50px;
     border: solid;
+    z-index: 3;
+}
+
+#cookieViz{
+    background-color: gray;
+    position: fixed;
     z-index: 2;
+    display: flex;
+}
+
+#horizontalCookies {
+    display: flex;
+    max-height: 546px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+#horizontalCookies::-webkit-scrollbar {
+    display: none;
+}
+#horizontalCookies {
+    -ms-overflow-style: none;  
+    overflow: -moz-scrollbars-none;  
+}
+
+#horizontalURLS{
+    display: flex;
+    max-height: 226px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+#horizontalURLS::-webkit-scrollbar {
+    display: none;
+}
+#horizontalURLS {
+    -ms-overflow-style: none;  
+    overflow: -moz-scrollbars-none;  
 }
