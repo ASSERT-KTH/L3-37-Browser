@@ -59,12 +59,6 @@ class App extends React.Component<any, IState>{
       loading: false,
     }
   }
-
-  isActiveView(name: String, arrMenu: Object[]): Boolean {
-    return arrMenu.find(element => element['name'] === name)['selected'];
-  }
-
-
   // COMPONENT ACTIONS
   componentDidMount() {
     this.updateWindowDimensions();
@@ -79,12 +73,35 @@ class App extends React.Component<any, IState>{
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
+  //-----------------------------------------------------------------------------------
+
+  // Update windows dimensions
   updateWindowDimensions = () => { this.setState({ height: window.innerHeight }); }
 
-  // startLoading = (e) => {
-  //   this.setState({ loading: true });
-  //   console.log('start loading', this.state.loading)
-  // }
+
+  isActiveView(name: String, arrMenu: Object[]): Boolean {
+    return arrMenu.find(element => element['name'] === name)['selected'];
+  }
+
+  setSelected(oName: String, arrMenu: IMenuItem[], active: Boolean): Array<IMenuItem> {
+    return arrMenu.map(item => {
+      if (item['name'] === oName) item['selected'] = active;
+      return item;
+    })
+  }
+
+  activateView = (vName, active) => {
+    switch (vName) {
+      case 'COOKIEVIZ':
+        const nMenu = this.setSelected("COOKIEVIZ", this.state.menuItems, active);
+        this.setState({ menuItems: nMenu })
+        break;
+
+      default:
+
+        break;
+    }
+  }
 
   finishLoad = (e) => {
     this.updateUrl(e);
@@ -140,6 +157,7 @@ class App extends React.Component<any, IState>{
   }
 
   render() {
+
     const { getFieldDecorator } = this.props.form;
     const contentHeight = this.state.height - 41;
     const l3Viz = <div className="card-container">
@@ -170,10 +188,16 @@ class App extends React.Component<any, IState>{
           getFieldDecorator={getFieldDecorator}
           isURLValid={this.state.isURLValid}
           menuItems={this.state.menuItems}
+          handleClick={this.activateView}
         ></MainMenu>
+
         {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
 
-        {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar contentHeight={contentHeight} cookies={this.state.cookies} loading={this.state.loading}></CookiesSideBar> : <></>}
+        {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar
+          contentHeight={contentHeight}
+          cookies={this.state.cookies}
+          loading={this.state.loading}
+        ></CookiesSideBar> : <></>}
 
         <Content style={{ marginTop: 40, height: contentHeight }}>
           <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%', opacity: this.state.opacity }} src='http://google.com' />
