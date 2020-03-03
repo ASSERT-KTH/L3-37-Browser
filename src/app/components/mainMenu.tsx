@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Form, Input, Icon, Menu, Row, Col } from 'antd';
+import { Layout, Form, Input, Icon, Menu, Row, Col, Tooltip } from 'antd';
 import { getActiveElements } from '../services/menu.logic'
 
 const { Header } = Layout;
@@ -16,8 +16,17 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
 
 
     const items = menuItems.map((item, index) => {
-        return <Menu.Item key={index + 1}> <Icon type={item['icon']} title={item['title']} onClick={(event) => handleClick(item['name'], !item['selected'])} /></Menu.Item>
+        return <Menu.Item key={index + 1}>
+            <Tooltip placement="bottom" title={item['title']}>
+                <Icon type={item['icon']} />
+            </Tooltip>
+        </Menu.Item>
     })
+
+    const handleMenuClick = (e) => {
+        const menuItem = menuItems.find(item => item['id'] === e['key'])
+        handleClick(menuItem['name'], !menuItem['selected'])
+    }
 
     return (
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '40px', lineHeight: '40px', padding: '0 10px' }}>
@@ -42,6 +51,7 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
                         defaultSelectedKeys={['5']}
                         selectedKeys={getActiveElements(menuItems)}
                         style={{ lineHeight: '40px' }}
+                        onClick={handleMenuClick}
                     >
                         {items}
                     </Menu>

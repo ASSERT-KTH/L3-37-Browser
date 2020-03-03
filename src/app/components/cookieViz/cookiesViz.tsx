@@ -39,7 +39,7 @@ export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, wi
     );
 
     return (
-        <div id="cookieViz" style={{ width: width - marginLeft, height: height - marginTop }}>
+        <div id="cookieViz" style={{ width: width, height: height - marginTop }}>
             <Row className="full-width">
                 <Col span={24}>
                     <Dropdown.Button overlay={menu} >
@@ -49,7 +49,7 @@ export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, wi
                 <HorizontalCookies cookies={userCookies} handleOverOut={setInfoCard} setSelectCookie={setSelectedCookie} />
 
             </Row>
-            {showInfoCard && selectedCookie !== null ? <InfoCard cookie={selectedCookie} /> : <></>}
+            {showInfoCard && selectedCookie !== null ? <InfoCard cookie={selectedCookie} position={"right"} /> : <></>}
         </div>
     )
 } 

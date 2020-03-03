@@ -26,6 +26,12 @@ interface IMenuItem {
   icon: String
 }
 
+interface IVizView {
+  id: number,
+  name: string,
+  selected: boolean
+}
+
 interface IState {
   url: string,
   isURLValid: boolean,
@@ -36,7 +42,8 @@ interface IState {
   menuItems: IMenuItem[],
   cookies: any,
   loading: boolean,
-  userCookies: any
+  userCookies: any,
+  vizViews: IVizView[]
 }
 
 
@@ -49,7 +56,7 @@ class App extends React.Component<any, IState>{
       url: 'http://google.com',
       isURLValid: true,
       collapsed: false,
-      opacity: 0.9,
+      opacity: 0.1,
       height: 800,
       width: 1200,
       menuItems: [
@@ -61,7 +68,10 @@ class App extends React.Component<any, IState>{
       ],
       cookies: [],
       loading: false,
-      userCookies: []
+      userCookies: [],
+      vizViews: [
+        { id: 0, name: "COOKIES_HORIZONTAL_VIZ", selected: false }
+      ]
     }
   }
   // COMPONENT ACTIONS
@@ -91,19 +101,37 @@ class App extends React.Component<any, IState>{
 
   setSelected(oName: String, arrMenu: IMenuItem[], active: Boolean): Array<IMenuItem> {
     return arrMenu.map(item => {
+      item['name'] === oName ? item['selected'] = active : item['selected'] = false;
+      return item;
+    })
+  }
+
+  setViewSelected(oName: String, arrMenu: IVizView[], active: boolean): Array<IVizView> {
+    return arrMenu.map(item => {
       if (item['name'] === oName) item['selected'] = active;
       return item;
     })
   }
 
+
   activateView = (vName, active) => {
     switch (vName) {
       case 'COOKIEVIZ':
-        const nMenu = this.setSelected("COOKIEVIZ", this.state.menuItems, active);
-        this.setState({ menuItems: nMenu })
+        this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, active) })
+        this.setState({ vizViews: this.setViewSelected("COOKIES_HORIZONTAL_VIZ", this.state.vizViews, false) })
+        break;
+      case 'COOKIES_HORIZONTAL_VIZ':
+        // this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, false) })
+        const cookieViz = this.state.vizViews.find(item => item['name'] === "COOKIES_HORIZONTAL_VIZ")['selected'];
+        this.setState({ vizViews: this.setViewSelected("COOKIES_HORIZONTAL_VIZ", this.state.vizViews, !cookieViz) })
         break;
 
+      case 'L3VIZ':
+        this.setState({ menuItems: this.setSelected("L3VIZ", this.state.menuItems, active) })
+        break;
       default:
+
+
 
         break;
     }
@@ -119,6 +147,7 @@ class App extends React.Component<any, IState>{
   async updateCookies() {
     const cookies = await getCookiesFrom(this.state.url);
     this.setState({ cookies });
+    console.log(cookies)
   }
 
   async updateUserCookies() {
@@ -203,17 +232,18 @@ class App extends React.Component<any, IState>{
           handleClick={this.activateView}
         ></MainMenu>
 
-        {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
 
         {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar
           contentHeight={contentHeight}
           cookies={this.state.cookies}
           loading={this.state.loading}
+          handleClick={this.activateView}
         ></CookiesSideBar> : <></>}
 
         <Content style={{ marginTop: 40, height: contentHeight }}>
-          <CookiesViz userCookies={this.state.userCookies} height={this.state.height} width={this.state.width} marginTop={40} marginLeft={45} />
-          <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%', opacity: this.state.opacity }} src='http://google.com' />
+          {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
+          {this.isActiveView("COOKIES_HORIZONTAL_VIZ", this.state.vizViews) ? <CookiesViz userCookies={this.state.userCookies} height={this.state.height} width={this.state.width} marginTop={40} marginLeft={45} /> : <></>}
+          <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%' }} src='http://google.com' />
         </Content>
 
 
