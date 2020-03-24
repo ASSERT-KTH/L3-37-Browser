@@ -18,7 +18,7 @@ export const CookiesSideBar: React.FC<ICookiesSideProps> = ({ contentHeight, coo
     const [showInfoCard, setInfoCard] = useState(true);
 
     const getCookiesFrom = (arrCookies) => {
-        const allCookies = cookies.map((cookie, index) => <SideCookie key={index} id={index} cookie={cookie} handleOverOut={setInfoCard} setSelectCookie={setSelectedCookie} size={10} />)
+        const allCookies = cookies.map((cookie, index) => <SideCookie key={index} id={index} cookie={cookie} handleOverOut={setInfoCard} setSelectCookie={setSelectedCookie} size={10} isBlackNWhite={true} />)
         return <div style={{ display: 'flex', flexFlow: 'wrap' }}>
             {allCookies}
         </div>

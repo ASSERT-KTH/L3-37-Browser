@@ -5,8 +5,8 @@
 }
 
 .sideCookie{
-    background-color: #333333;
     margin: 3px 3px;
+    font-size: 0px;
 }
 
 .full-width{
@@ -41,10 +41,12 @@
 }
 
 #cookieViz{
-    background-color: gray;
+    background-color:white;
     position: fixed;
     z-index: 2;
     display: flex;
+    border-left: solid 0.5px #f1f3f4;
+
 }
 
 #horizontalCookies {
@@ -78,4 +80,15 @@
 #horizontalURLS {
     -ms-overflow-style: none;  
     overflow: -moz-scrollbars-none;  
+    margin-top: 5px;
+}
+.ant-btn-round.ant-btn-lg{
+    margin: 0 10px 10px 0;
+    display: flex;
+    align-items: center;
+}
+#cookiesFilter{
+    display: flex;
+    align-content: center;
+    justify-content: center;
 }

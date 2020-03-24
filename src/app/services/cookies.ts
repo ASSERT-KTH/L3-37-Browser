@@ -18,7 +18,13 @@ export function getCookiesFrom(domain: String) {
         })
 }
 
+export function deleteData() {
+    return session.defaultSession.clearStorageData({ options: { storages: ['cookies'] } }, function (data) {
+    });
+}
+
 export default {
     getAllCookies,
-    getCookiesFrom
+    getCookiesFrom,
+    deleteData
 }

@@ -1,21 +1,17 @@
 import React, { ChangeEvent } from 'react';
 import { Layout, Form, Tabs, Slider } from 'antd';
+
+import { getAllCookies, getCookiesFrom, deleteData } from './services/cookies'
+import { getKey, setKey, clearData, addCookies } from './services/store'
+
 import TreeView from './components/tree.view';
 import { CookiesSideBar } from './components/cookieViz/cookiesSideBar';
 import { CookiesViz } from './components/cookieViz/cookiesViz';
 import { MainMenu } from './components/mainMenu';
-import { getAllCookies, getCookiesFrom } from './services/cookies'
 
 const TabPane = Tabs.TabPane;
 const { Content } = Layout;
-// const Store = require('./services/store.ts');
-// const store = new Store({
-//   // We'll call our data file 'user-preferences'
-//   configName: 'user-cookies',
-//   defaults: {
-//     cookies: []
-//   }
-// });
+
 
 //MENU ITEMS INTERFACE
 interface IMenuItem {
@@ -40,7 +36,7 @@ interface IState {
   height: number,
   width: number,
   menuItems: IMenuItem[],
-  cookies: any,
+  urlCookies: any,
   loading: boolean,
   userCookies: any,
   vizViews: IVizView[]
@@ -53,20 +49,21 @@ class App extends React.Component<any, IState>{
     super(props)
 
     this.state = {
-      url: 'http://google.com',
+      url: 'http://www.google.com',
       isURLValid: true,
       collapsed: false,
       opacity: 0.1,
       height: 800,
       width: 1200,
       menuItems: [
-        { id: '1', selected: false, name: "SOUNDVIZ", title: 'Sound Visualization', icon: "smile" },
-        { id: '2', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: "heart" },
-        { id: '3', selected: true, name: "COOKIEVIZ", title: 'Cookies Visualization', icon: "check-circle" },
-        { id: '4', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: "check-circle" },
-        { id: '5', selected: true, name: "BROWSER", title: 'Browser', icon: "global" },
+        { id: '1', selected: false, name: "DELETECOOKIES", title: 'Delete cookies', icon: "global" },
+        { id: '2', selected: false, name: "SOUNDVIZ", title: 'Sound Visualization', icon: "smile" },
+        { id: '3', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: "heart" },
+        { id: '4', selected: true, name: "COOKIEVIZ", title: 'Cookies Visualization', icon: "check-circle" },
+        { id: '5', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: "check-circle" },
+        { id: '6', selected: true, name: "BROWSER", title: 'Browser', icon: "global" },
       ],
-      cookies: [],
+      urlCookies: [],
       loading: false,
       userCookies: [],
       vizViews: [
@@ -78,6 +75,12 @@ class App extends React.Component<any, IState>{
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+
+    //Get local user cookies
+    const localData = getKey('vizUserCookies')
+    const userCookies = localData === null ? setKey('vizUserCookies', { cookies: [] }) : localData;
+    this.setState(userCookies)
+
     if (this.pageView) {
       // this.pageView.addEventListener('did-start-loading', this.startLoading);
       this.updateUserCookies();
@@ -90,6 +93,7 @@ class App extends React.Component<any, IState>{
   }
 
   //-----------------------------------------------------------------------------------
+
 
   // Update windows dimensions
   updateWindowDimensions = () => { this.setState({ height: window.innerHeight, width: window.innerWidth }); }
@@ -114,7 +118,7 @@ class App extends React.Component<any, IState>{
   }
 
 
-  activateView = (vName, active) => {
+  activateView = async (vName, active) => {
     switch (vName) {
       case 'COOKIEVIZ':
         this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, active) })
@@ -129,10 +133,15 @@ class App extends React.Component<any, IState>{
       case 'L3VIZ':
         this.setState({ menuItems: this.setSelected("L3VIZ", this.state.menuItems, active) })
         break;
+      case 'DELETECOOKIES':
+        this.setState({ loading: true });
+        deleteData().then(() => {
+          this.updateUserCookies()
+          this.setState({ loading: false });
+        });
+        clearData();
+        break;
       default:
-
-
-
         break;
     }
   }
@@ -144,15 +153,45 @@ class App extends React.Component<any, IState>{
     this.setState({ loading: false });
   }
 
+
+  //get the cookies from the current URL
   async updateCookies() {
     const cookies = await getCookiesFrom(this.state.url);
-    this.setState({ cookies });
-    console.log(cookies)
+    this.setState({ urlCookies: cookies });
   }
 
+  //update the user cookies with 1st and 3rd party cookies
   async updateUserCookies() {
-    const userCookies = await getAllCookies();
-    this.setState({ userCookies })
+    //get electron cookies
+    const electronCookies = await getAllCookies();
+    //get current user cookies
+    const localData = getKey('vizUserCookies');
+    const userCookies = localData === null ? [] : localData['cookies'];
+
+    //remove current url cookies from electron cookies
+    const urlCookies = this.state.urlCookies.map(el => {
+      el['type'] = 'FIRST_PARTY'
+      el['origin'] = ''
+      return el;
+    })
+    //Add the cookies -- if cookie does not exist then add else update it
+    const updatedCookies = addCookies(urlCookies, userCookies)
+
+    //remove user cookies from electron
+    const urlCookesNames = updatedCookies.map(el => el.name + ':' + el.domain)
+    //remaining cookies are 3rd party cookies  
+    const thirdPartyCookies = electronCookies.filter(el => {
+      return urlCookesNames.indexOf(el.name + ':' + el.domain) < 0;
+    }).map(el => {
+      el['type'] = 'THIRD_PARTY'
+      el['origin'] = this.state.url
+      return el;
+    })
+    //add 3rd party cookies and current URL cookies as 1st party cookies and save it locally
+    const newCookies = [...thirdPartyCookies, ...updatedCookies]
+    setKey('vizUserCookies', { cookies: newCookies })
+    //set state with local cookies
+    this.setState({ userCookies: newCookies })
   }
 
   updateUrl = (e) => {
@@ -221,7 +260,6 @@ class App extends React.Component<any, IState>{
     </div>;
 
 
-
     return (
       <Layout style={{ height: '100%' }}>
         <MainMenu
@@ -235,15 +273,15 @@ class App extends React.Component<any, IState>{
 
         {this.isActiveView("COOKIEVIZ", this.state.menuItems) ? <CookiesSideBar
           contentHeight={contentHeight}
-          cookies={this.state.cookies}
+          cookies={this.state.urlCookies}
           loading={this.state.loading}
           handleClick={this.activateView}
         ></CookiesSideBar> : <></>}
 
         <Content style={{ marginTop: 40, height: contentHeight }}>
           {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
-          {this.isActiveView("COOKIES_HORIZONTAL_VIZ", this.state.vizViews) ? <CookiesViz userCookies={this.state.userCookies} height={this.state.height} width={this.state.width} marginTop={40} marginLeft={45} /> : <></>}
-          <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%' }} src='http://google.com' />
+          {this.isActiveView("COOKIES_HORIZONTAL_VIZ", this.state.vizViews) ? <CookiesViz userCookies={this.state.userCookies} height={this.state.height} width={this.state.width} marginTop={40} currentURL={this.state.url} /> : <></>}
+          <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%' }} src='http://www.google.com' />
         </Content>
 
 

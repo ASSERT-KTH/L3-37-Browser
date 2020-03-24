@@ -1,6 +1,8 @@
 @import url(../../../../node_modules/antd/dist/antd.css);
 @import url(header.scss);
 @import url(cookieBar.scss);
+@import url(globals.scss);
+
 #root {
   width: 100%;
   height: 100%;

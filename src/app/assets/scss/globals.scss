@@ -1,4 +1,3 @@
-// Colors
 $color-black: #2a2a2a;
 $color-white: #ffffff;
 $color-dark-gray: #343434;
@@ -7,10 +6,8 @@ $color-light-gray: #A9A9A9;
 
 $menuHeight: 40px;
 
-//Constants
 $box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
 
-// Utils
 $border-radius: 3px;
 .box-shadow {
 	box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
@@ -26,7 +23,6 @@ $border-radius: 3px;
 	}
 }
 
-// Spacings
 .spacing {
 	height: 30px;
 	&.x-small {
