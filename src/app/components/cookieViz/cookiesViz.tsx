@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, message, Button } from 'antd';
+import { Row, Col, message } from 'antd';
 import { HorizontalCookies } from './horizontalCookies';
 import { InfoCard } from './infoCard';
-
+import { getNonRepeatUrls, getCookies, orderBy, tiltUrls, restoreTilt, existInSelected, upDateSelected, removeCookie } from '../../services/vix.cookies.actions';
 
 interface ICookiesVizProps {
     userCookies: [],
     height: number,
     width: number,
     marginTop: number,
-    currentURL: string
+    currentURL: string,
+    calculateSize: Function
 }
 
 interface ITypeCookie {
@@ -18,101 +19,42 @@ interface ITypeCookie {
     tittle: string
 }
 
-
-
 const infoHeight: number = 40;
+
 const dataArr: Array<ITypeCookie> = [{ id: 0, name: "CURRENT_URL", tittle: "Current URL cookies" }, { id: 1, name: "ALL_URLS", tittle: "All cookies" }] //, { id: 2, name: "UNDER_VIGILANCE", tittle: "Under vigilance cookies" }
 const orderArr: Array<ITypeCookie> = [{ id: 0, name: "TYPE", tittle: "Type of cookie" }, { id: 1, name: "NAME", tittle: "Cookie name" }, { id: 2, name: "DATE", tittle: "Expiration date" }, { id: 3, name: "DOMAIN", tittle: "Cookie domain" }];
-
-const getNonRepeatUrls = (cArr) => {
-    //change to strings
-    const nonRepeat = cArr.map(cookie => cookie['domain']);
-    //sort string array and remove duplicates
-    const nonRepeatcookies = nonRepeat.sort().reduce((a, e) => e === a[a.length - 1] ? a : (a.push(e), a), [])
-    //map and apply JSX 
-    const allUrls = nonRepeatcookies.map((cookie, index) => <Button key={index} type="dashed" shape="round" size='large'>{cookie}</Button>)
-    return allUrls;
-}
-
-const getCookiesWithURL = (cookieArr, url) => {
-    return cookieArr.filter(el => {
-        return ((el['type'] === 'FIRST_PARTY' && url.includes(el['domain'])) || (el['origin'].includes(url) && el['type'] === 'THIRD_PARTY'))
-    });
-}
-
-const getCookies = (cookieArr, urlStr, displayType) => {
-    switch (displayType) {
-        case 'CURRENT_URL':
-            const url = urlStr.replace('http://', '').replace('https://', '').replace('www', '').replace(/.$/, "")
-            return getCookiesWithURL(cookieArr, url)
-        case 'ALL_URLS':
-            return cookieArr;
-        case 'UNDER_VIGILANCE':
-            console.log(displayType);
-            break;
-
-        default:
-            console.log('GET COOKIES DEFAULT')
-            break;
-    }
-}
-
-const orderBy = (orderType, arr) => {
-    switch (orderType) {
-        case "TYPE":
-            return arr.sort(function (a) {
-                return a['type'] === "FIRST_PARTY" ? -1 : 1;
-            });
-        case "NAME":
-            return arr.sort(function (a, b) {
-                var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-                var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
-                return 0;
-            });
-        case "DATE":
-            console.log(orderType);
-            return arr.sort(function (a, b) {
-                var nameA = a.expirationDate; // ignore upper and lowercase
-                var nameB = b.expirationDate; // ignore upper and lowercase
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
-                return 0;
-            });
-        case "DOMAIN":
-            console.log(orderType);
-            return arr.sort(function (a, b) {
-                var nameA = a.domain.toUpperCase(); // ignore upper and lowercase
-                var nameB = b.domain.toUpperCase(); // ignore upper and lowercase
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
-                return 0;
-            }); default:
-            break;
-    }
-}
+const urlOrderArr: Array<ITypeCookie> = [{ id: 0, name: "TYPE_DOMAIN", tittle: "Type of domain" }, { id: 1, name: "DOMAIN", tittle: "Domain name" }]
 
 
-export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, width, marginTop, currentURL }): JSX.Element => {
+
+export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, width, marginTop, currentURL, calculateSize }): JSX.Element => {
     const [selectedCookie, setSelectedCookie] = useState(null);
     const [showInfoCard, setInfoCard] = useState(true);
     const [typeCookie, setTypeCookie] = useState(dataArr[0]);
-    const [orderSelected, setOrderSelected] = useState(orderArr[0])
+    const [orderSelected, setOrderSelected] = useState(orderArr[0]);
+    const [urlOrderSelected, setUrlOrderSelected] = useState(urlOrderArr[0]);
+    const [selectedCookies, setSelectedCookies] = useState([])
+    useEffect(() => {
+        //update the selected cookies everytime it changes
+        // const urls = upDateSelected(selectedCookies, [...vizUrls]);
+        // setVizUrls(urls);
+    }, [selectedCookies])
     const [vizCookies, setVizCookies] = useState(userCookies);
     useEffect(() => {
         //identify if user cookies change and modify 
-        setValues();
+        // setValues();
     }, [userCookies])
+
     const [vizUrls, setVizUrls] = useState(getNonRepeatUrls(userCookies))
     useEffect(() => {
-        setValues();
+        // setValues();
     }, [typeCookie]);
 
-    const totalCookies = userCookies.length;
+    // const totalCookies = userCookies.length;
     const firstCookies = vizCookies.filter(el => el['type'] === 'FIRST_PARTY').length;
     const thirdCookies = vizCookies.length - firstCookies;
 
+    //
     const setValues = () => {
         const filtCookies = getCookies(userCookies, currentURL, typeCookie['name'])
         setVizCookies(filtCookies);
@@ -120,24 +62,58 @@ export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, wi
         setVizUrls(getNonRepeatUrls(filtCookies))
     }
 
+    //Modify Amount of cookies
     const handleMenuClick = (e) => {
         setTypeCookie(dataArr[Number(e['key'])]);
         message.info('View: ' + dataArr[Number(e['key'])]['tittle']);
     }
 
+    //Modify order for Cookies
     const handleOrderMenuClick = (e) => {
-        const orderedCookies = orderBy(orderArr[Number(e['key'])]['name'], vizCookies)
+        const orderedCookies = orderBy(orderArr[Number(e['key'])]['name'], [...vizCookies])
         setOrderSelected(orderArr[Number(e['key'])]);
         setVizCookies(orderedCookies)
+    }
+
+    //Modify order for URLS
+    const handleUrlOrderMenuClick = (e) => {
+        const orderedUrls = orderBy(urlOrderArr[Number(e['key'])]['name'], [...vizUrls])
+        setUrlOrderSelected(urlOrderArr[Number(e['key'])]);
+        setVizUrls(orderedUrls);
+    }
+
+
+    const handleHoverURL = (id, domain, origin, type) => {
+        //identify type of URL
+        const urlsTilted = tiltUrls([...vizUrls], id, domain, origin, type);
+        // const cookiesTilted = tiltCookies([...vizCookies], id, domain, origin, type)
+        setVizUrls(urlsTilted);
+        // setVizCookies(cookiesTilted);
+    }
+
+    const handleMouseOut = () => {
+        const urls = restoreTilt([...vizUrls]);
+        // const cookies = restoreTilt([...vizCookies]);
+        setVizUrls(urls);
+        // setVizCookies(cookies);
+    }
+
+    const handleClick = (cookie) => {
+        if (existInSelected(cookie, selectedCookies)) {
+            const cookies = removeCookie(cookie, [...selectedCookies]);
+            setSelectedCookies(cookies);
+
+        } else {
+            setSelectedCookies([...selectedCookies, cookie]);
+        }
     }
 
     return (
         <div id="cookieViz" style={{ width: width, height: height - marginTop, padding: '20px 0 0 20px' }}>
 
             <Row className="full-width">
-                <Col span={18} style={{ height: infoHeight }}>
+                <Col span={24} style={{ height: infoHeight }}>
                     <div className="d-flex" >
-                        <div className="spacing-h x-small" />
                         <svg height="20" width="20">
                             <circle cx="10" cy="10" r="5" fill="#b3b3b3" />
                         </svg>
@@ -151,7 +127,6 @@ export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, wi
                         <div>Total cookies: {thirdCookies + firstCookies}</div>
                     </div>
                 </Col>
-                <Col span={6}></Col>
                 <HorizontalCookies
                     handleOverOut={setInfoCard}
                     setSelectCookie={setSelectedCookie}
@@ -164,6 +139,10 @@ export const CookiesViz: React.FC<ICookiesVizProps> = ({ userCookies, height, wi
                     orderArr={orderArr}
                     handleOrderClick={handleOrderMenuClick}
                     orderSelected={orderSelected['tittle']}
+                    calculateSize={calculateSize}
+                    handleHoverURL={handleHoverURL}
+                    handleMouseOut={handleMouseOut}
+                    handleClick={handleClick}
                 />
 
             </Row>

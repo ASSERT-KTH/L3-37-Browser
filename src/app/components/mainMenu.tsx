@@ -16,9 +16,9 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
 
 
     const items = menuItems.map((item, index) => {
-        return <Menu.Item key={index + 1}>
+        return <Menu.Item key={index + 1} disabled={item['disabled']}>
             <Tooltip placement="bottom" title={item['title']}>
-                <Icon type={item['icon']} />
+                {item['icon']}
             </Tooltip>
         </Menu.Item>
     })
@@ -36,6 +36,7 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
                         <Form.Item>
                             {
                                 getFieldDecorator('url', {})(
+
                                     <Input prefix={<Icon type={isURLValid ? "cloud" : "ban"} style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" />
                                 )
                             }
@@ -50,13 +51,13 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
                         multiple={true}
                         defaultSelectedKeys={['5']}
                         selectedKeys={getActiveElements(menuItems)}
-                        style={{ lineHeight: '40px' }}
+                        style={{ lineHeight: '40px', display: 'flex', justifyContent: 'flex-end' }}
                         onClick={handleMenuClick}
                     >
                         {items}
                     </Menu>
                 </Col>
             </Row>
-        </Header>
+        </Header >
     );
 }

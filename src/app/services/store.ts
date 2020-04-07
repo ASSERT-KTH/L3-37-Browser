@@ -33,7 +33,7 @@ export function clearData() {
 
 export function addCookies(nCookies, oCookies) {
     //get arrays with only the names
-    const nCookiesNames = nCookies.map(el => el.name + ':' + el.domain)
+    // const nCookiesNames = nCookies.map(el => el.name + ':' + el.domain)
     const oCookiesNames = oCookies.length === 0 ? [] : oCookies.map(el => el.name + ':' + el.domain)
     //filter New cookies if they already exist in old cookies
     const newCookies = nCookies.filter(el => {

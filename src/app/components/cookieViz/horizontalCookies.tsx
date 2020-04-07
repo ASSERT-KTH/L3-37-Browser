@@ -1,6 +1,8 @@
 import React from 'react';
-import { Col, Button, Dropdown, Menu, message } from 'antd';
+import { Col, Button, Dropdown, Menu } from 'antd';
 import { SideCookie } from './sideCookie'
+import { ButURL } from './butUrl';
+
 
 interface IHorizontalCookiesProps {
     handleOverOut: any,
@@ -13,7 +15,11 @@ interface IHorizontalCookiesProps {
     typeCookie: string,
     orderArr: Array<ITypeCookie>,
     handleOrderClick: any,
-    orderSelected: string
+    orderSelected: string,
+    calculateSize: Function,
+    handleHoverURL: Function,
+    handleMouseOut: Function,
+    handleClick: Function
 }
 
 interface ITypeCookie {
@@ -22,11 +28,10 @@ interface ITypeCookie {
     tittle: string
 }
 
-
-export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOverOut, setSelectCookie, height, dataArr, handleMenuClick, vizCookies, vizUrls, typeCookie, orderArr, handleOrderClick, orderSelected }): JSX.Element => {
+export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOverOut, setSelectCookie, height, dataArr, handleMenuClick, vizCookies, vizUrls, typeCookie, orderArr, handleOrderClick, orderSelected, calculateSize, handleHoverURL, handleMouseOut, handleClick }): JSX.Element => {
 
     const menuHeight = 40;
-    const cookiesHeight = (height - menuHeight) * 0.64;
+    const cookiesHeight = (height - menuHeight) * 0.62;
     const urlHeight = (height - menuHeight) * 0.36;
 
 
@@ -44,6 +49,18 @@ export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOve
         </Menu.Item>)}
     </Menu>);
 
+
+    //VIZ URLS
+    const urlViz = vizUrls.map((cookie, index) => <ButURL
+        key={index}
+        id={index}
+        cookie={cookie}
+        handleHoverURL={handleHoverURL}
+        handleMouseOut={handleMouseOut}
+        handleClick={handleClick}
+    >
+    </ButURL>);
+
     const allCookies = vizCookies.map((cookie, index) => <SideCookie
         key={index}
         id={index}
@@ -52,16 +69,14 @@ export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOve
         setSelectCookie={setSelectCookie}
         size={50}
         isBlackNWhite={cookie['type'] !== 'FIRST_PARTY'}
+        calculateSize={calculateSize}
     />)
-
-
-
-
 
     return (
         <React.Fragment>
             <Col id="horizontalCookies" span={24} style={{ height: cookiesHeight }}>
                 {allCookies}
+                <div className="spacer-horizontal"></div>
             </Col>
             <Col id="cookiesFilter" span={24} style={{ height: menuHeight }}>
                 <Dropdown overlay={menu} placement="bottomCenter">
@@ -71,9 +86,12 @@ export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOve
                 <Dropdown overlay={orderMenu} placement="bottomCenter">
                     <Button>{"Order Cookies by: " + orderSelected}</Button>
                 </Dropdown>
+
             </Col>
             <Col id="horizontalURLS" span={24} style={{ height: urlHeight }}>
-                {vizUrls}
+                {urlViz}
+                <div className="spacer-horizontal"></div>
+
             </Col>
         </React.Fragment>
 
