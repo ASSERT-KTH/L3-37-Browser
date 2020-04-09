@@ -1,0 +1,111 @@
+$color-black: #2a2a2a;
+$color-white: #ffffff;
+$color-dark-gray: #343434;
+$color-gray: #484848;
+$color-light-gray: #A9A9A9;
+
+$menuHeight: 40px;
+
+$box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+
+$border-radius: 3px;
+.box-shadow {
+	box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+}
+
+.d-flex {
+	display: flex;
+	&.justify-content-center {
+		flex-direction: column;
+	}
+	&.flex-column {
+		flex-direction: column;
+	}
+}
+
+.spacing {
+	height: 30px;
+	&.x-small {
+		height: 10px;
+	}
+	&.small {
+		height: 15px;
+	}
+	&.intermediate {
+		height: 30px;
+	}
+	&.medium {
+		height: 45px;
+	}
+	&.large {
+		height: 60px;
+	}
+}
+.spacing-h {
+	width: 30px;
+	&.x-small {
+		width: 10px;
+	}
+	&.small {
+		width: 15px;
+	}
+	&.medium {
+		width: 45px;
+	}
+	&.large {
+		width: 60px;
+	}
+}
+
+.label {
+	font-size: 16px;
+	color: $color-light-gray;
+	font-weight: bold;
+	text-transform: uppercase;
+	&.large {
+		font-size: 26px;
+	}
+	&.color-dark {
+		color: $color-black;
+	}
+}
+
+a, .btn {
+	&:hover {
+		cursor: pointer;
+	}
+}
+.btn.btn-primary {
+	font-size: 18px;
+	font-weight: bold;
+	background-color: $color-black;
+	border-color: $color-black;
+}
+.logo {
+	i {
+		color: $color-white;
+		font-size: 62px;
+	}
+	h1 {
+		margin: 0px;
+		color: $color-white;
+		margin-bottom: 5px;
+		font-size: 30px;
+		font-weight: bold;
+	}
+	p {
+		margin: 0px;
+		color: $color-light-gray;
+	}
+	&.large {
+		h1 {
+			font-size: 48px;
+		}
+	}
+}
+a.sidebar-button.dark {
+	font-size: 18px;
+	color: $color-black!important;
+	font-weight: bold;
+	text-decoration: none;
+}

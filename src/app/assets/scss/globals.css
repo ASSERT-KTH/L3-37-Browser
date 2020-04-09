@@ -1,0 +1,124 @@
+.box-shadow {
+  -webkit-box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+          box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+}
+
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.d-flex.justify-content-center {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.d-flex.flex-column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.spacing {
+  height: 30px;
+}
+
+.spacing.x-small {
+  height: 10px;
+}
+
+.spacing.small {
+  height: 15px;
+}
+
+.spacing.intermediate {
+  height: 30px;
+}
+
+.spacing.medium {
+  height: 45px;
+}
+
+.spacing.large {
+  height: 60px;
+}
+
+.spacing-h {
+  width: 30px;
+}
+
+.spacing-h.x-small {
+  width: 10px;
+}
+
+.spacing-h.small {
+  width: 15px;
+}
+
+.spacing-h.medium {
+  width: 45px;
+}
+
+.spacing-h.large {
+  width: 60px;
+}
+
+.label {
+  font-size: 16px;
+  color: #A9A9A9;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.label.large {
+  font-size: 26px;
+}
+
+.label.color-dark {
+  color: #2a2a2a;
+}
+
+a:hover, .btn:hover {
+  cursor: pointer;
+}
+
+.btn.btn-primary {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #2a2a2a;
+  border-color: #2a2a2a;
+}
+
+.logo i {
+  color: #ffffff;
+  font-size: 62px;
+}
+
+.logo h1 {
+  margin: 0px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.logo p {
+  margin: 0px;
+  color: #A9A9A9;
+}
+
+.logo.large h1 {
+  font-size: 48px;
+}
+
+a.sidebar-button.dark {
+  font-size: 18px;
+  color: #2a2a2a !important;
+  font-weight: bold;
+  text-decoration: none;
+}
+/*# sourceMappingURL=globals.css.map */

@@ -7,7 +7,9 @@
   "homepage": "./",
   "build": {
     "appId": "l337",
-    "files": ["**"],
+    "files": [
+      "**"
+    ],
     "directories": {
       "buildResources": "build"
     }
@@ -15,6 +17,9 @@
   "description": "Tiny browser with dom wrawing with d3.js",
   "dependencies": {
     "@babel/core": "7.4.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
     "@svgr/webpack": "4.1.0",
     "@types/jest": "24.0.12",
     "@types/react": "16.8.16",
@@ -32,6 +37,7 @@
     "d3": "^5.9.2",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
+    "electron-json-storage-sync": "^1.1.1",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.0",
     "eslint-loader": "2.1.2",
@@ -51,6 +57,7 @@
     "jest-resolve": "24.7.1",
     "jest-watch-typeahead": "0.3.0",
     "mini-css-extract-plugin": "0.5.0",
+    "moment": "^2.24.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "parse5": "^5.1.0",
     "pnp-webpack-plugin": "1.2.1",
@@ -64,6 +71,7 @@
     "react-dev-utils": "^9.0.0",
     "react-dom": "^16.8.6",
     "react-electron-web-view": "^2.0.1",
+    "react-identicons": "^1.1.7",
     "react-inversify": "^2.0.1",
     "reflect-metadata": "^0.1.13",
     "request-promise": "^4.2.4",
@@ -83,16 +91,15 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "electron-dev": "NODE_ENV=development ELECTRON_START_URL=http://localhost:3000 electron .",
-    "electron-win": "set NODE_ENV=development set ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-win": "set NODE_ENV=development & set ELECTRON_START_URL=http://localhost:3000 & electron .",
     "electron-prod": "npm run build && electron .",
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
     "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
     "package-win": "npm run build && electron-packager . domer --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Domer\"",
-    "package-linux": "npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
+    "package-linux": " npm install electron-installer-debian &&  npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
     "electron-build": "electron-builder build",
     "electron-publish": "electron-builder --publish always"
-
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -160,8 +167,8 @@
     ]
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Jacarte/L3-37-Browser"
+    "type": "git",
+    "url": "https://github.com/KTH/L3-37-Browser"
   },
   "devDependencies": {
     "@types/d3": "^5.7.2",
@@ -173,7 +180,6 @@
     "electron": "^5.0.1",
     "electron-build": "0.0.3",
     "electron-builder": "^20.40.2",
-    "electron-installer-debian": "^1.2.0",
     "electron-packager": "^13.1.1",
     "node-sass": "^4.12.0",
     "webpack-cli": "^3.3.2"
