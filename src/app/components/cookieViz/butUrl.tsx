@@ -1,16 +1,21 @@
 import React from 'react';
+import { Tooltip } from 'antd';
+
 import { truncateString } from '../../services/actions';
+import { createArc } from '../../services/vix.cookies.actions';
 
 interface IbutURLPROPS {
     id: number,
     cookie: object,
     handleHoverURL: Function,
     handleMouseOut: Function,
-    handleClick: Function
+    handleClick: Function,
+    totalCookies: number
 }
 
 
-export const ButURL: React.FC<IbutURLPROPS> = ({ id, cookie, handleHoverURL, handleMouseOut, handleClick }): JSX.Element => {
+export const ButURL: React.FC<IbutURLPROPS> = ({ id, cookie, handleHoverURL, handleMouseOut, handleClick, totalCookies }): JSX.Element => {
+
     const handleEnter = (e) => {
         handleHoverURL(id, cookie['domain'], cookie['origin'], cookie['type']);
     }
@@ -24,29 +29,38 @@ export const ButURL: React.FC<IbutURLPROPS> = ({ id, cookie, handleHoverURL, han
     }
 
 
-    const decorator = cookie['origin'] === "" ? <svg height="35" width="30">
-        <circle cx="15" cy="20" r="14" fill={"#b3b3b3"} />
-    </svg> : <svg height="35" width="30">
-            <polygon points="1,9 1,33 25,21" fill={"#b3b3b3"} />
-        </svg>
 
     const tiltClass = cookie['tilt'] ? " btn-tilt " : "";
     const highlightClass = cookie['highlight'] ? " btn-highlight " : "";
     const selected = cookie['selected'] ? " btn-selected " : "";
+
+    const arcs = createArc([cookie['numCookies']['first'], cookie['numCookies']['thrid']], 14).map((el, index) => {
+        return <path
+            key={index}
+            d={el['path']}
+            stroke={index === 0 ? '#f7931e' : '#c4c4c4'}
+            fillOpacity='0'
+            strokeWidth="6"
+        />
+    })
+
+    const decorator = <svg height="35" width="35">
+        <g transform={`translate(${35 / 2}, ${35 / 2})`}>
+            {arcs}
+        </g>
+    </svg>;
+
     return (
         <div className={"btn-large " + tiltClass + highlightClass + selected}
             onMouseEnter={handleEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClickElement}
         >
-            <div>
-                {decorator}
-            </div>
-            <div className="spacer-w" />
-            <div>
-                {truncateString(cookie['domain'], 20)}
-            </div>
-        </div>
+            <Tooltip placement="top" title={truncateString(cookie['domain'], 20)}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'center' }}>
+                    {decorator}
+                </div>
+            </Tooltip>
+        </div >
     )
-    // return <Button type="dashed" shape="round" size='large'>{domain}</Button>
 }

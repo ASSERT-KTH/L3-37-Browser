@@ -19,7 +19,8 @@ interface IHorizontalCookiesProps {
     calculateSize: Function,
     handleHoverURL: Function,
     handleMouseOut: Function,
-    handleClick: Function
+    handleClick: Function,
+    totalCookies: number
 }
 
 interface ITypeCookie {
@@ -28,11 +29,11 @@ interface ITypeCookie {
     tittle: string
 }
 
-export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOverOut, setSelectCookie, height, dataArr, handleMenuClick, vizCookies, vizUrls, typeCookie, orderArr, handleOrderClick, orderSelected, calculateSize, handleHoverURL, handleMouseOut, handleClick }): JSX.Element => {
+export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOverOut, setSelectCookie, height, dataArr, handleMenuClick, vizCookies, vizUrls, typeCookie, orderArr, handleOrderClick, orderSelected, calculateSize, handleHoverURL, handleMouseOut, handleClick, totalCookies }): JSX.Element => {
 
     const menuHeight = 40;
-    const cookiesHeight = (height - menuHeight) * 0.62;
-    const urlHeight = (height - menuHeight) * 0.36;
+    const cookiesHeight = (height - menuHeight) * 0.69;
+    const urlHeight = (height - menuHeight) * 0.2;
 
 
     const menu = (
@@ -58,6 +59,7 @@ export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOve
         handleHoverURL={handleHoverURL}
         handleMouseOut={handleMouseOut}
         handleClick={handleClick}
+        totalCookies={totalCookies}
     >
     </ButURL>);
 
@@ -91,7 +93,6 @@ export const HorizontalCookies: React.FC<IHorizontalCookiesProps> = ({ handleOve
             <Col id="horizontalURLS" span={24} style={{ height: urlHeight }}>
                 {urlViz}
                 <div className="spacer-horizontal"></div>
-
             </Col>
         </React.Fragment>
 

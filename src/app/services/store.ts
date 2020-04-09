@@ -1,5 +1,42 @@
 const storage = (window as any).require('electron-json-storage-sync');
 
+const { dialog } = (window as any).require('electron').remote
+var fs = (window as any).require('fs'); // Load the File System to execute our common tasks (CRUD)
+
+
+export function exportData(content, message) {
+    console.log('export data', dialog);
+    // JSON.stringify(content)
+    const data = {
+        user: '',
+        cookies: content
+    }
+    const fileInfo = JSON.stringify(data);
+    let filename = dialog.showSaveDialog({}
+    ).then(result => {
+        filename = result.filePath;
+        filename = /.txt$/.test(filename) ? filename : filename + ".txt";
+        console.log(filename)
+        if (filename === undefined) {
+            console.log('the user clicked the btn but didn\'t created a file');
+            message.info('Error creating the file');
+
+            return;
+        }
+        fs.writeFile(filename, fileInfo, (err) => {
+            if (err) {
+                console.log('an error ocurred with file creation ' + err.message);
+                message.info('Error creating the file');
+                return
+            }
+            message.info('File saved ;)');
+        })
+    }).catch(err => {
+        message.info('Error creating the file');
+    })
+}
+
+
 export function getKey(key) {
     const result = storage.get(key);
     if (result.status) {

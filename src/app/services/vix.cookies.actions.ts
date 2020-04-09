@@ -1,4 +1,4 @@
-
+import * as d3 from 'd3';
 
 export function getCookiesWithURL(cookieArr, url) {
     return cookieArr.filter(el => {
@@ -13,10 +13,6 @@ export function getCookies(cookieArr, urlStr, displayType) {
             return getCookiesWithURL(cookieArr, urlStr)
         case 'ALL_URLS':
             return cookieArr;
-        case 'UNDER_VIGILANCE':
-            console.log(displayType);
-            break;
-
         default:
             console.log('GET COOKIES DEFAULT')
             break;
@@ -37,7 +33,30 @@ export function getNonRepeatUrls(cArr) {
         return comparison;
     })
         .filter(el => el['type'] === "FIRST_PARTY")
-        .reduce((a, e) => a.length !== 0 && e['domain'] === a[a.length - 1]['domain'] ? a : (a.push(e), a), [])
+        .reduce((a, e) => a.length !== 0 && e['domain'] === a[a.length - 1]['domain'] ? a : (a.push(e), a), []).map(el => {
+            el['numCookies'] = getNumCookiesRelated(el, cArr)
+            return el;
+        })
+}
+
+function getNumCookiesRelated(element, arr) {
+    const cookies = arr.filter(el => {
+        return el['domain'] === element['domain'] && el['origin'] === element['origin'] ? true :
+            el['type'] === "THIRD_PARTY" && el['origin'] === element['domain'] ? true :
+                false
+    });
+    let first = 0;
+    let third = 0;
+
+    for (let el of cookies) {
+        if (el['type'] === 'FIRST_PARTY') {
+            first++;
+        } else if (el['type'] === 'THIRD_PARTY') {
+            third++;
+        }
+    }
+
+    return { total: first + third, first: first, thrid: third };
 }
 
 export function orderBy(orderType, arr) {
@@ -71,7 +90,6 @@ export function orderBy(orderType, arr) {
                 return 0;
             });
         case "TYPE_DOMAIN":
-            console.log('sort type domain')
             return arr.sort((a, b) => {
                 return a.origin === undefined || a.origin === '' ? -1 : 1
             })
@@ -143,4 +161,26 @@ function modifySelected(element, arr) {
 
 export function removeCookie(element, arr) {
     return arr.filter(el => el['domain'] !== element['domain']);
+}
+
+
+export function createArc(arr, radius) {
+    const arcGenerator = d3
+        .arc()
+        .padAngle(0) //pad angle defines the distance between each arc
+        .cornerRadius(4); //cornerRadius
+
+    const arcs = d3.pie()(arr);
+
+    const slices = arcs.map((d) => {
+        const path = arcGenerator({
+            startAngle: d.startAngle,
+            endAngle: d.endAngle,
+            innerRadius: radius,
+            outerRadius: radius,
+        });
+        d['path'] = path;
+        return d;
+    })
+    return slices;
 }

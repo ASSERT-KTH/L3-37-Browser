@@ -9,7 +9,8 @@ interface ISideCookieProps {
     setSelectCookie: any,
     size: number,
     isBlackNWhite: boolean,
-    calculateSize: Function
+    calculateSize: Function,
+
 }
 const getDateDecorator = (type, value, size) => {
     const squareSize = size * 0.1;
@@ -87,8 +88,8 @@ export const SideCookie: React.FC<ISideCookieProps> = ({ id, cookie, handleOverO
             style={{ width: size, height: size, position: "relative" }}
         >
 
-            {dateDecorator}
 
+            {dateDecorator}
             <div>
                 {identi}
             </div>

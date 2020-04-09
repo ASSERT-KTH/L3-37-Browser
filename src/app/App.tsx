@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { Layout, Form, Tabs, Slider } from 'antd';
+import { Layout, Form, Tabs, Slider, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCircle, faCookie, faCodeBranch, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faCookie, faCodeBranch, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import { getAllCookies, getCookiesFrom, deleteData } from './services/cookies'
-import { getKey, setKey, clearData, addCookies } from './services/store'
+import { getKey, setKey, clearData, addCookies, exportData } from './services/store'
 import { getMinMax, getDateViz, cleanURL } from './services/actions';
 
 import TreeView from './components/tree.view';
@@ -62,16 +62,17 @@ class App extends React.Component<any, IState>{
       width: 1200,
       menuItems: [
         { id: '1', selected: false, name: "DELETECOOKIES", title: 'Delete all cookies', icon: <FontAwesomeIcon icon={faTrashAlt} />, disabled: false },
-        { id: '2', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: <FontAwesomeIcon icon={faCodeBranch} />, disabled: true },
-        { id: '3', selected: true, name: "COOKIEVIZ", title: 'Cookies Visualization', icon: <FontAwesomeIcon icon={faCookie} />, disabled: false },
-        { id: '4', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: <FontAwesomeIcon icon={faCircle} />, disabled: true },
-        { id: '5', selected: true, name: "BROWSER", title: 'Browser', icon: <FontAwesomeIcon icon={faSquare} />, disabled: false },
+        { id: '2', selected: false, name: "SAVE", title: 'Save cookies', icon: <FontAwesomeIcon icon={faSave} />, disabled: false },
+        { id: '3', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: <FontAwesomeIcon icon={faCodeBranch} />, disabled: true },
+        { id: '4', selected: true, name: "COOKIEVIZ", title: 'Cookies Visualization', icon: <FontAwesomeIcon icon={faCookie} />, disabled: false },
+        { id: '5', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: <FontAwesomeIcon icon={faCircle} />, disabled: true },
+        // { id: '5', selected: true, name: "BROWSER", title: 'Browser', icon: <FontAwesomeIcon icon={faSquare} />, disabled: false },
       ],
       urlCookies: [],
       loading: false,
       userCookies: [],
       vizViews: [
-        { id: 0, name: "COOKIES_HORIZONTAL_VIZ", selected: true }
+        { id: 0, name: "COOKIES_HORIZONTAL_VIZ", selected: false }
       ],
       opacityLimit: { min: 0, max: 100 }
     }
@@ -106,7 +107,7 @@ class App extends React.Component<any, IState>{
   updateWindowDimensions = () => { this.setState({ height: window.innerHeight, width: window.innerWidth }); }
 
 
-  isActiveView(name: String, arrMenu: Object[]): Boolean {
+  isActiveView(name: String, arrMenu: Object[]): boolean {
     return arrMenu.find(element => element['name'] === name)['selected'];
   }
 
@@ -130,7 +131,7 @@ class App extends React.Component<any, IState>{
     switch (vName) {
       case 'COOKIEVIZ':
         this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, active) })
-        // this.setState({ vizViews: this.setViewSelected("COOKIES_HORIZONTAL_VIZ", this.state.vizViews, false) })
+        this.setState({ vizViews: this.setViewSelected("COOKIES_HORIZONTAL_VIZ", this.state.vizViews, false) })
         break;
       case 'COOKIES_HORIZONTAL_VIZ':
         // this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, false) })
@@ -148,6 +149,9 @@ class App extends React.Component<any, IState>{
           this.setState({ loading: false });
         });
         clearData();
+        break;
+      case 'SAVE':
+        exportData(this.state.userCookies, message);
         break;
       default:
         break;
@@ -302,6 +306,7 @@ class App extends React.Component<any, IState>{
           isURLValid={this.state.isURLValid}
           menuItems={this.state.menuItems}
           handleClick={this.activateView}
+          cookieVizActive={this.isActiveView("COOKIES_HORIZONTAL_VIZ", this.state.vizViews)}
         ></MainMenu>
 
         {/* SIDE BAR */}
@@ -324,7 +329,7 @@ class App extends React.Component<any, IState>{
             height={this.state.height}
             width={this.state.width}
             marginTop={40}
-            currentURL={new URL(this.state.url).hostname.replace(/(https?:\/\/)?(www)?/i, '')}
+            currentURL={cleanURL(new URL(this.state.url).hostname)}
             calculateSize={this.getDateImage}
           /> : <></>}
           <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%' }} src={initialURL} />

@@ -10,9 +10,10 @@ interface IMainMenuOwnProps {
     isURLValid: boolean,
     menuItems: Object[]
     handleClick: Function
+    cookieVizActive: boolean
 }
 
-export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDecorator, isURLValid, menuItems, handleClick }): JSX.Element => {
+export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDecorator, isURLValid, menuItems, handleClick, cookieVizActive }): JSX.Element => {
 
 
     const items = menuItems.map((item, index) => {
@@ -37,7 +38,12 @@ export const MainMenu: React.FC<IMainMenuOwnProps> = ({ handleSubmit, getFieldDe
                             {
                                 getFieldDecorator('url', {})(
 
-                                    <Input prefix={<Icon type={isURLValid ? "cloud" : "ban"} style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Url" />
+                                    <Input
+                                        prefix={<Icon type={isURLValid ? "cloud" : "ban"}
+                                            style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        placeholder="Url"
+                                        disabled={cookieVizActive}
+                                    />
                                 )
                             }
                         </Form.Item>

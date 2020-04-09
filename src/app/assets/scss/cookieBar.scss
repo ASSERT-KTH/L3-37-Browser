@@ -27,11 +27,11 @@
     font-size: 0px;
 }
 .cookie-tilt{
-  background-color: red;
+  background-color:#4c4c4c;
 }
 
 .cookie-selected{
-  background-color: blue;
+  background-color: #4c4c4c;
 }
 
 .full-width{
@@ -182,17 +182,14 @@
     margin: 0 10px 10px 0;
     display: flex;
     align-items: center;
-    height: 40px;
-    padding: 0 20px;
+    height: 50px;
+    padding: 0px 6px;
     font-size: 18px;
-    border-radius: 40px;
-
+    border-radius: 50px;
     color: rgba(0, 0, 0, 0.65);
     background-color: #fff;
-
     line-height: 1.499;
     position: relative;
-
     font-weight: 400;
     white-space: nowrap;
     text-align: center;
@@ -201,20 +198,20 @@
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    max-width: 300px;
+    max-width: 50px;
   }
 
   .btn-large:hover{
-    border: 1.4px dashed red;
+    border: 1.4px dashed #f7931e;
   }
 
   .btn-tilt{
-    background-color:red;
+    background-color:#f2f2f2;
   }
   .btn-highlight{
-    border: 1.4px dashed red;
+    border: 1.4px dashed #f7931e;
   }
 
   .btn-selected{
-    background-color: blue;
+    background-color: #f2f2f2;
   }
