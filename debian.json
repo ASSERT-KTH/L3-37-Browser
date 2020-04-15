@@ -1,5 +1,5 @@
 {
-    "dest": "release-builds/",
+    "dest": "release-linux/",
     "categories": [
       "Utility"
     ],
