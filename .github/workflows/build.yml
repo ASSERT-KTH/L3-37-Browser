@@ -48,7 +48,7 @@ jobs:
       
       - name: Build/release Electron app
         if: matrix.os == 'windows-latest'
-        run: sudo npm run package-win
+        run: npm run package-win
 
       - name: Release-linux
         uses: softprops/action-gh-release@v1
