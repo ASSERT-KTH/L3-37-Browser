@@ -7,7 +7,9 @@
   "homepage": "./",
   "build": {
     "appId": "l337",
-    "files": ["**"],
+    "files": [
+      "**"
+    ],
     "directories": {
       "buildResources": "build"
     }
@@ -88,11 +90,9 @@
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
     "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
-    "package-win": "npm run build && electron-packager . domer --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Domer\"",
-    "package-linux": "npm run build && electron-packager . domer --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/domer-linux-x64/ --arch amd64 --config debian.json",
-    "electron-build": "electron-builder build",
+    "package-win": "npm run build && electron-packager . l337 --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=Assert --version-string.FileDescription=CE --version-string.ProductName=\"L3-37\"",
+    "package-linux": "npm run build && electron-packager . l337 --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds && electron-installer-debian --src release-builds/l337-linux-x64/ --arch amd64 --config debian.json",
     "electron-publish": "electron-builder --publish always"
-
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -160,8 +160,8 @@
     ]
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Jacarte/L3-37-Browser"
+    "type": "git",
+    "url": "https://github.com/Jacarte/L3-37-Browser"
   },
   "devDependencies": {
     "@types/d3": "^5.7.2",
@@ -171,9 +171,7 @@
     "@types/request-promise": "^4.1.43",
     "cross-env": "^5.2.0",
     "electron": "^5.0.1",
-    "electron-build": "0.0.3",
     "electron-builder": "^20.40.2",
-    "electron-installer-debian": "^1.2.0",
     "electron-packager": "^13.1.1",
     "node-sass": "^4.12.0",
     "webpack-cli": "^3.3.2"

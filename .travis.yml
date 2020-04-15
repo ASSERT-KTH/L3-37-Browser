@@ -8,9 +8,23 @@ node_js:
 os: 
   - linux
   - osx
-
+  - windows
 script:
   - echo "Installing"
   - npm install
-  - npm run build
-  - npm run electron-publish
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+        npm run package-linux
+    fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      npm run package
+    fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then
+      npm run package-win
+    fi
+deploy:
+  provider: releases
+  file: 
+    - release-builds
+  skip-cleanup: true
+  on: https://github.com/KTH/L3-37-Browser
+  
