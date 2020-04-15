@@ -1,6 +1,6 @@
 {
-  "name": "L337",
-  "productName": "L337",
+  "name": "l337",
+  "productName": "l337",
   "version": "0.3.0",
   "private": true,
   "main": "src/main.js",
@@ -91,7 +91,8 @@
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
     "package": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=release-builds/mac",
     "package-win": "electron-packager . l337 --overwrite --platform=win32 --arch=x64 --out=release-builds/win --version-string.CompanyName=Assert --version-string.FileDescription=CE --version-string.ProductName=\"L3-37\"",
-    "package-linux": "electron-packager . l337 --overwrite --platform=linux --arch=x64 --out=release-linux --executableName=l337 && electron-installer-debian --src=release-linux/l337-linux-x64 --arch amd64 --config debian.json",
+    "package-linux": "electron-packager . l337 --overwrite --platform=linux --arch=x64 --out=release-linux --executableName=l337",
+    "repackage-linux":"electron-installer-debian --src=release-linux/l337-linux-x64 --arch amd64 --config debian.json",
     "electron-publish": "electron-builder --publish always"
   },
   "eslintConfig": {

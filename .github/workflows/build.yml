@@ -39,6 +39,21 @@ jobs:
         run: sudo npm run package-linux && ls ./release-linux
 
       - name: Build/release Electron app
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo npm run repackage-linux
+
+      - name: Upload binaries to release linux
+        uses: svenstaro/upload-release-action@v1-release
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./release-linux/l337*.deb
+          asset_name: mything
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+
+      - name: Build/release Electron app
         if: matrix.os == 'macOS-latest'
         run: sudo npm run package && ls ./release-builds/mac
       
@@ -46,10 +61,4 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: npm run package-win && ls ./release-builds/win/l337-win32-x64
 
-      - name: Create GitHub release
-        uses: Roang-zero1/github-upload-release-artifacts-action@master
-        with:
-          args: ./release-builds/win/l337-win32-x64/
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
