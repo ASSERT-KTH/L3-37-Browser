@@ -20,7 +20,7 @@ jobs:
           node-version: 10
 
       - name: Install packages
-          run: npm i
+        run: npm i
 
       - name: Build/release Electron app
         if: matrix.os == 'macOS-latest'
