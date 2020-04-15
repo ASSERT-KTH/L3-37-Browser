@@ -1,5 +1,9 @@
 name: Build/release
-on: push
+on:
+  push:
+      # Sequence of patterns matched against refs/tags
+      tags:
+        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   release:
@@ -9,7 +13,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-
+      fail-fast: false
+      
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -22,9 +27,16 @@ jobs:
       - name: Install packages
         run: npm i
 
+      - name: Install debian packager
+        if: matrix.os == 'ubuntu-latest'
+        run: npm i --save electron-installer-debian  
+
+      - name: Build
+        run: npm run build
+
       - name: Build/release Electron app
         if: matrix.os == 'macOS-latest'
-        run: npm run package
+        run: sudo npm run package
 
       - name: Release-macos
         uses: softprops/action-gh-release@v1
@@ -36,7 +48,7 @@ jobs:
       
       - name: Build/release Electron app
         if: matrix.os == 'windows-latest'
-        run: npm run package-win
+        run: sudo npm run package-win
 
       - name: Release-linux
         uses: softprops/action-gh-release@v1
@@ -48,7 +60,7 @@ jobs:
 
       - name: Build/release Electron app
         if: matrix.os == 'ubuntu-latest'
-        run: npm run package-linux
+        run: sudo npm run package-linux
 
       - name: Release-linux
         uses: softprops/action-gh-release@v1
