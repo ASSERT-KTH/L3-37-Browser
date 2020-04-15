@@ -23,5 +23,6 @@ deploy:
   provider: releases
   file: 
     - release-builds
-  on: https://github.com/KTH/L3-37-Browser
+  on: 
+    branch: master
   
