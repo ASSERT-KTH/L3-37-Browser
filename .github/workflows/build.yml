@@ -46,13 +46,10 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: npm run package-win && ls ./release-builds/win/l337-win32-x64
 
-        
-
       - name: Create GitHub release
         uses: Roang-zero1/github-upload-release-artifacts-action@master
         with:
-          args:
-          - ./release-builds/win/l337-win32-x64/
+          args: ./release-builds/win/l337-win32-x64/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
