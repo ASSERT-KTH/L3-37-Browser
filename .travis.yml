@@ -1,7 +1,5 @@
 language: node_js
 
-sudo: required
-
 node_js:
   - "12.1.0"
 
@@ -25,6 +23,5 @@ deploy:
   provider: releases
   file: 
     - release-builds
-  skip-cleanup: true
   on: https://github.com/KTH/L3-37-Browser
   
