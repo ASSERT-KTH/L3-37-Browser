@@ -26,9 +26,12 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: npm i --save electron-installer-debian  
 
+      - name: Build
+        run: npm run build
+
       - name: Build/release Electron app
         if: matrix.os == 'macOS-latest'
-        run: npm run package
+        run: sudo npm run package
 
       - name: Release-macos
         uses: softprops/action-gh-release@v1
@@ -40,7 +43,7 @@ jobs:
       
       - name: Build/release Electron app
         if: matrix.os == 'windows-latest'
-        run: npm run package-win
+        run: sudo npm run package-win
 
       - name: Release-linux
         uses: softprops/action-gh-release@v1
@@ -52,7 +55,7 @@ jobs:
 
       - name: Build/release Electron app
         if: matrix.os == 'ubuntu-latest'
-        run: npm run package-linux
+        run: sudo npm run package-linux
 
       - name: Release-linux
         uses: softprops/action-gh-release@v1

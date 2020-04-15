@@ -89,9 +89,9 @@
     "electron-prod": "npm run build && electron .",
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
-    "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds/mac",
-    "package-win": "npm run build && electron-packager . l337 --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds/win --version-string.CompanyName=Assert --version-string.FileDescription=CE --version-string.ProductName=\"L3-37\"",
-    "package-linux": "npm run build && electron-packager . l337 --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds/linux && electron-installer-debian --src release-builds/linux/l337-linux-x64/ --arch amd64 --config debian.json",
+    "package": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=release-builds/mac",
+    "package-win": "electron-packager . l337 --overwrite --platform=win32 --arch=x64 --out=release-builds/win --version-string.CompanyName=Assert --version-string.FileDescription=CE --version-string.ProductName=\"L3-37\"",
+    "package-linux": "electron-packager . l337 --overwrite --platform=linux --arch=x64 --out=release-builds/linux && electron-installer-debian --src release-builds/linux/l337-linux-x64/ --arch amd64 --config debian.json",
     "electron-publish": "electron-builder --publish always"
   },
   "eslintConfig": {
