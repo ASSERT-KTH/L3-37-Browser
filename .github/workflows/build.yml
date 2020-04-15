@@ -35,37 +35,31 @@ jobs:
         run: npm run build
 
       - name: Build/release Electron app
-        if: matrix.os == 'macOS-latest'
-        run: sudo npm run package
-
-      - name: Release-macos
-        uses: softprops/action-gh-release@v1
-        if: matrix.os == 'macOS-latest'
-        with:
-          files: release-builds/mac/*/**
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Build/release Electron app
-        if: matrix.os == 'windows-latest'
-        run: npm run package-win
-
-      - name: Release-linux
-        uses: softprops/action-gh-release@v1
-        if: matrix.os == 'windows-latest'
-        with:
-          files: release-builds/win/*/**
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build/release Electron app
         if: matrix.os == 'ubuntu-latest'
         run: sudo npm run package-linux
 
+      - name: Build/release Electron app
+        if: matrix.os == 'macOS-latest'
+        run: sudo npm run package
+      
+      - name: Build/release Electron app
+        if: matrix.os == 'windows-latest'
+        run: npm run package-win 
+
+        
+      - name: see directory
+        run: ls -R ./release-builds
+
+      - uses: montudor/action-zip@v0.1.0
+        if: matrix.os == 'windows-latest'
+        with:
+          args: zip -qq -r ./windows.zip ./release-builds/win
+
       - name: Release-linux
         uses: softprops/action-gh-release@v1
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'windows-latest'
         with:
-          files: release-builds/linux/*/**
+          files: ./windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
