@@ -67,6 +67,10 @@ export function cleanURL(url) {
         .replace(/(www.)?/i, '')
         .replace(/^(\.)?/i, '');
 }
+
+export function trimString(s, n) {
+    return s.length > n ? s.substring(0, n) + "..." : s;
+}
 export default {
     getMinMax,
     getDateViz,

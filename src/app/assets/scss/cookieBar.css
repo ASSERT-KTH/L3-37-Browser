@@ -1,10 +1,47 @@
 #CookieBar {
-  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0 0px 0px;
+}
+
+.spacer-horizontal {
+  width: 450px;
+  display: block;
+  height: 1px;
+}
+
+.spacer-h {
+  height: 10px;
+}
+
+.spacer-w {
+  width: 10px;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+          box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
 }
 
 .sideCookie {
   margin: 3px 3px;
   font-size: 0px;
+}
+
+.cookie-tilt {
+  background-color: #4c4c4c;
+}
+
+.cookie-selected {
+  background-color: #4c4c4c;
 }
 
 .full-width {
@@ -13,9 +50,43 @@
 
 #cookieInfoCard {
   position: absolute;
-  top: 20px;
-  border: solid;
+  top: 60px;
   z-index: 3;
+  -webkit-box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+          box-shadow: 0px 3px 5px rgba(42, 42, 42, 0.42);
+  -webkit-transition: 0.3s all cubic-bezier(1, 0, 0, 1) 1s;
+  transition: 0.3s all cubic-bezier(1, 0, 0, 1) 1s;
+  -webkit-animation: moveTop 0.3s 1;
+          animation: moveTop 0.3s 1;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
+}
+
+@-webkit-keyframes moveTop {
+  0% {
+    top: 30px;
+    opacity: 0;
+  }
+  100% {
+    top: 60px;
+    opacity: 1;
+  }
+}
+
+@keyframes moveTop {
+  0% {
+    top: 30px;
+    opacity: 0;
+  }
+  100% {
+    top: 60px;
+    opacity: 1;
+  }
+}
+
+.card-hidden {
+  -webkit-transform: translateY(10%);
+          transform: translateY(10%);
 }
 
 .card-info span {
@@ -28,6 +99,7 @@
 .card-info h3 {
   overflow: hidden;
   font-size: 1.375em;
+  margin-bottom: 0;
 }
 
 .card-right {
@@ -35,11 +107,16 @@
 }
 
 .card-left {
-  left: 50px;
+  left: 69px;
+}
+
+.card-info.name h3 {
+  font-size: 2em;
+  text-align: center;
 }
 
 #cookieViz {
-  background-color: gray;
+  background-color: white;
   position: fixed;
   z-index: 2;
   display: -webkit-box;
@@ -60,6 +137,8 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -ms-flex-line-pack: baseline;
+      align-content: baseline;
 }
 
 #horizontalCookies::-webkit-scrollbar {
@@ -84,6 +163,8 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -ms-flex-line-pack: baseline;
+      align-content: baseline;
 }
 
 #horizontalURLS::-webkit-scrollbar {
@@ -93,5 +174,98 @@
 #horizontalURLS {
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
+  margin-top: 5px;
+}
+
+.ant-btn-round.ant-btn-lg {
+  margin: 0 10px 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#cookiesFilter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.fade-in {
+  animation: fadeIn ease 5s;
+  -webkit-animation: fadeIn ease 5s;
+  -moz-animation: fadeIn ease 5s;
+  -o-animation: fadeIn ease 5s;
+  -ms-animation: fadeIn ease 5s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.btn-large {
+  margin: 0 10px 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 50px;
+  padding: 0px 6px;
+  font-size: 18px;
+  border-radius: 50px;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #fff;
+  line-height: 1.499;
+  position: relative;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  border: 1.4px dashed #d9d9d9;
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+          box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  cursor: pointer;
+  -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  max-width: 50px;
+}
+
+.btn-large:hover {
+  border: 1.4px dashed #f7931e;
+}
+
+.btn-tilt {
+  background-color: #f2f2f2;
+}
+
+.btn-highlight {
+  border: 1.4px dashed #f7931e;
+}
+
+.btn-selected {
+  background-color: #424242;
 }
 /*# sourceMappingURL=cookieBar.css.map */

@@ -1,8 +1,8 @@
 @import url(../../../../node_modules/antd/dist/antd.css);
 @import url(header.scss);
 @import url(cookieBar.scss);
+@import url(abstractTree.scss);
 @import url(globals.scss);
-
 #root {
   width: 100%;
   height: 100%;
@@ -45,6 +45,7 @@ circle.node {
 
 circle.node-head, circle.node-meta {
   fill: antiquewhite;
+  stroke: antiquewhite;
 }
 
 circle.node-script {
@@ -166,5 +167,124 @@ circle.node-div, circle.node-section, circle.node-table, circle.node-tr, circle.
 
 .legend-item-div, .legend-item-section, .legend-item-table, .legend-item-tr, .legend-item-center, .legend-item-hr, .legend-item-br, .legend-item-tbody, .legend-item-thead, .legend-item-footer, .legend-item-body, .legend-item-ul, .legend-item-li, .legend-item-ol, .legend-item-html {
   color: #1890ff;
+}
+
+.descendants {
+  fill: #232836;
+  stroke: none;
+}
+
+.descendants-script {
+  fill: #13ecb5;
+}
+
+.descendants-style, .descendants-link, .descendants-meta {
+  fill: #13ecb5;
+}
+
+.descendants-style-line, .descendants-link-line, .descendants-meta-line {
+  stroke: #13ecb5;
+  fill: none;
+}
+
+.descendants-img, .descendants-audio, .descendants-video, .descendants-picture {
+  fill: purple;
+  stroke: none;
+}
+
+.descendants-label, .descendants-h1, .descendants-h2, .descendants-h3, .descendants-h4, .descendants-h5, .descendants-h6, .descendants-span, .descendants-p, .descendants-td, .descendants-th, .descendants-i, .descendants-noscript, .descendants-u, .descendants-b, .descendants-cite {
+  fill: orange;
+  stroke: none;
+}
+
+.descendants-input, .descendants-option, .descendants-form, .descendants-select, .descendants-fieldset {
+  fill: none;
+  stroke: white;
+  opacity: 0.6;
+}
+
+.descendants-input-fill, .descendants-option-fill, .descendants-form-fill, .descendants-select-fill, .descendants-fieldset-fill {
+  fill: white;
+  stroke: none;
+}
+
+.descendants-a, .descendants-button {
+  fill: #c63d0f;
+}
+
+.descendants-a line, .descendants-button line {
+  stroke: #c63d0f;
+  stroke-width: 3px;
+}
+
+.descendants-a-link, .descendants-button-link {
+  fill: #c63d0f;
+}
+
+.descendants-iframe {
+  fill: black;
+}
+
+.descendants-tbody, .descendants-thead, .descendants-head, .descendants-footer, .descendants-body, .descendants-html {
+  fill: #f8cd0c;
+}
+
+.descendants-div, .descendants-section, .descendants-table, .descendants-tr, .descendants-center, .descendants-hr, .descendants-br, .descendants-ul, .descendants-li, .descendants-ol, .descendants-html {
+  fill: #5d2dcb;
+  opacity: 0.4;
+}
+
+.descendants-svg {
+  fill: #19a3a4;
+}
+
+.descendants-svg-line {
+  fill: none;
+  stroke: #19a3a4;
+  stroke-width: 1;
+}
+
+.descendants-invisible {
+  opacity: 0.001;
+}
+
+.descendants-line {
+  stroke-width: 1;
+  stroke: none;
+}
+
+.descendants-unknown {
+  fill: #29527f;
+}
+
+.descendants-unknown-line {
+  stroke: #29527f;
+  stroke-width: 1px;
+  fill: none;
+}
+
+.descendants-span {
+  margin-right: 10px;
+}
+
+.top-slider {
+  left: 200px;
+  width: 250px;
+  color: white;
+}
+
+.ant-checkbox-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+.ant-checkbox-wrapper + span, .ant-checkbox + span {
+  color: #b3b3b3;
+  margin: 5px 0;
 }
 /*# sourceMappingURL=app.css.map */

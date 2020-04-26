@@ -11,11 +11,12 @@ import TreeView from './components/tree.view';
 import { CookiesSideBar } from './components/cookieViz/cookiesSideBar';
 import { CookiesViz } from './components/cookieViz/cookiesViz';
 import { MainMenu } from './components/mainMenu';
+import { AbstractViz } from './components/treeViz/AbstractViz';
 
 const TabPane = Tabs.TabPane;
 const { Content } = Layout;
 const initialURL = 'https://www.google.com/';
-
+const marginTop = 40;
 //MENU ITEMS INTERFACE
 interface IMenuItem {
   id: String,
@@ -63,7 +64,7 @@ class App extends React.Component<any, IState>{
       menuItems: [
         { id: '1', selected: false, name: "DELETECOOKIES", title: 'Delete all cookies', icon: <FontAwesomeIcon icon={faTrashAlt} />, disabled: false },
         { id: '2', selected: false, name: "SAVE", title: 'Save cookies', icon: <FontAwesomeIcon icon={faSave} />, disabled: false },
-        { id: '3', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: <FontAwesomeIcon icon={faCodeBranch} />, disabled: true },
+        { id: '3', selected: false, name: "TREEVIZ", title: 'Tree Visualizaiton', icon: <FontAwesomeIcon icon={faCodeBranch} />, disabled: false },
         { id: '4', selected: true, name: "COOKIEVIZ", title: 'Cookies Visualization', icon: <FontAwesomeIcon icon={faCookie} />, disabled: false },
         { id: '5', selected: false, name: "L3VIZ", title: 'l3-33 Visualization', icon: <FontAwesomeIcon icon={faCircle} />, disabled: true },
         // { id: '5', selected: true, name: "BROWSER", title: 'Browser', icon: <FontAwesomeIcon icon={faSquare} />, disabled: false },
@@ -72,7 +73,7 @@ class App extends React.Component<any, IState>{
       loading: false,
       userCookies: [],
       vizViews: [
-        { id: 0, name: "COOKIES_HORIZONTAL_VIZ", selected: false }
+        { id: 0, name: "COOKIES_HORIZONTAL_VIZ", selected: false },
       ],
       opacityLimit: { min: 0, max: 100 }
     }
@@ -152,6 +153,11 @@ class App extends React.Component<any, IState>{
         break;
       case 'SAVE':
         exportData(this.state.userCookies, message);
+        break;
+      case 'TREEVIZ':
+        this.setState({ menuItems: this.setSelected("COOKIEVIZ", this.state.menuItems, false) })
+        this.setState({ vizViews: this.setViewSelected("COOKIES_HORIZONTAL_VIZ", this.state.vizViews, false) })
+        this.setState({ menuItems: this.setSelected("TREEVIZ", this.state.menuItems, active) })
         break;
       default:
         break;
@@ -245,6 +251,7 @@ class App extends React.Component<any, IState>{
     return getDateViz(eDate, size, this.state.opacityLimit)
   }
 
+
   handleSubmit = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -320,7 +327,7 @@ class App extends React.Component<any, IState>{
         ></CookiesSideBar> : <></>}
 
         {/* SHOW VISUALIZATIONS */}
-        <Content style={{ marginTop: 40, height: contentHeight }}>
+        <Content style={{ marginTop: marginTop, height: contentHeight }}>
           {/* TREE VIZ */}
           {this.isActiveView("L3VIZ", this.state.menuItems) ? l3Viz : <></>}
           {/* COOKIES HORIZONTAL VIZ */}
@@ -328,10 +335,28 @@ class App extends React.Component<any, IState>{
             userCookies={this.state.userCookies}
             height={this.state.height}
             width={this.state.width}
-            marginTop={40}
+            marginTop={marginTop}
             currentURL={cleanURL(new URL(this.state.url).hostname)}
             calculateSize={this.getDateImage}
           /> : <></>}
+          {/* ABSTRACT TREE VISUALIZTION */}
+
+          {this.isActiveView("TREEVIZ", this.state.menuItems) ? <AbstractViz
+            size={{
+              width: this.state.width,
+              height: this.state.height
+            }}
+            marginTop={marginTop}
+            url={this.state.url}
+          /> : <></>}
+          {/* {this.isActiveView("TREEVIZ", this.state.menuItems) ? <AbstractTreeViz
+            size={{
+              width: this.state.width,
+              height: this.state.height
+            }}
+            marginTop={marginTop}
+            url={this.state.url}
+          /> : <></>} */}
           <webview ref={e => this.pageView = e} style={{ width: '100%', height: '100%' }} src={initialURL} />
         </Content>
 
