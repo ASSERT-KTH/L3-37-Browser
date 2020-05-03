@@ -1,0 +1,92 @@
+
+
+.spacing-hSmall {
+	width: 15px; 
+}
+
+.spacing-small{
+	height:15px;
+}
+
+.spacing-wlarge{
+	width: 45px;
+}
+
+.background-night{
+	background-color: #001529;
+}
+
+.gradient-bg{
+	position: absolute;
+	overflow: hidden;
+}	
+
+.container-scroll{
+	overflow-y: hidden;
+	overflow-x: auto;
+	overflow: -moz-scrollbars-none;  
+}
+
+.container-scroll::-webkit-scrollbar {
+	display: none;
+	}
+ 
+.inputText{
+	font-size: 14px;
+	fill:white;
+
+	&-dark{
+		fill:#001529;
+	}
+}
+
+.btn-block{
+    align-items: center;
+    height: 38px;
+    padding: 0px 13px;
+    font-size: 18px;
+    border-radius: 6px;
+    color: white;
+	background-color: #001529;
+    font-weight: 400;
+    white-space: nowrap;
+    background-image: none;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+#lateral-menu{
+	background-color: #001529;
+	width:320px;
+	position: absolute;
+	top:0;
+	color:#b3b3b3;
+	padding: 20px 0px 0 20px;
+	transition: 0.3s all cubic-bezier(1, 0, 0, 1);
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+}
+
+#lateral-menu::-webkit-scrollbar {
+    display: none;
+}
+#lateral-menu h3, h4{
+	color:#b3b3b3;
+}
+
+span.ant-slider-mark-text.ant-slider-mark-text-active,span.ant-slider-mark-text{
+	color:#b3b3b3;
+}
+
+
+.invisible{
+	transform: translateX(-100%);
+}
+
+.btn{
+	cursor: pointer;
+}
+
+

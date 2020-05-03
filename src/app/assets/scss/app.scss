@@ -1,8 +1,18 @@
 @import url(../../../../node_modules/antd/dist/antd.css);
 @import url(header.scss);
 @import url(cookieBar.scss);
+@import url(abstractTree.scss);  
+@import url(globals.scss);
 
 $barsize: 15px;
+$color-green: #13ecb5;
+$color-red:#c63d0f;
+$color-blue:#232836;
+$color-gray:#b3b3b3;
+$color-purple: #5d2dcb;
+$color-yellow: #f8cd0c;
+$color-pink: #29527f;
+$color-oceanBlue:#19a3a4;
 
 #root{
     width: 100%;
@@ -52,6 +62,7 @@ circle.node {
 
     &-head, &-meta{
         fill: antiquewhite;
+        stroke: antiquewhite;
     }
 
     // Scripts and links
@@ -195,3 +206,130 @@ circle.node {
 }
  
 
+.descendants { 
+    fill: $color-blue;
+    stroke: none;
+
+    // Metadata
+    // &-meta{
+    //     fill: $color-blue;
+    //     stroke: $color-blue;
+    // }
+
+    // Scripts and links
+    &-script{
+        fill: $color-green;
+    }
+    &-style, &-link , &-meta{
+        fill: $color-green;
+        &-line{
+            stroke: $color-green;
+            fill:none;
+        }
+    }
+
+    //MEDIA
+    &-img,&-audio, &-video, &-picture{
+        fill: purple;
+        stroke: none
+    }
+
+    // Presentation tag
+    &-label, &-h1, &-h2, &-h3, &-h4, &-h5, &-h6, &-span, &-p, &-td, &-th, &-i, &-noscript, &-u, &-b, &-cite{ 
+        fill: orange;
+        stroke: none
+    }
+    &-input, &-option, &-form, &-select, &-fieldset{ 
+        fill: none;
+        stroke: white;
+        opacity:0.6;
+        &-fill{
+            fill:white;
+            stroke:none;
+        }
+    }
+
+
+
+    // Action tags
+    &-a, &-button{ 
+        fill: $color-red;
+        line{
+            stroke: $color-red;
+            stroke-width: 3px;
+        }
+        &-link{
+            fill: $color-red;
+        }
+    }
+
+    // Outside
+    &-iframe{
+        fill: black;
+    }
+
+    &-tbody, &-thead, &-head, &-footer, &-body, &-html, &-header{
+        fill: $color-yellow;
+    }
+    // Structural tags
+    &-div, &-section, &-table, &-tr, &-center, &-hr, &-br, &-ul, &-li, &-ol, &-html{
+        fill: $color-purple;
+        opacity:0.4;
+    }
+
+    &-svg{
+        fill:$color-oceanBlue ;   
+        &-line{
+            fill:none;
+            stroke:$color-oceanBlue;
+            stroke-width: 1;
+        } 
+    }
+
+    &-invisible{
+        opacity:0.001;
+    }
+
+    &-line{
+        stroke-width: 1;
+        stroke: none;
+    }
+    &-unknown{
+        fill:$color-pink;
+        &-line{
+            stroke:$color-pink;
+            stroke-width: 1px;
+            fill: none;
+        }
+    }
+
+    &-span{
+        margin-right: 10px;
+    }
+
+}
+
+.dark{
+    fill:white !important;
+    opacity:1 !important;
+    &-line{
+        stroke:white !important;
+        fill:none !important;
+    }
+}
+
+.top-slider{
+    left: 200px;
+    width: 250px;
+    color:white;
+}
+
+.ant-checkbox-group{
+    display: flex;
+    flex-flow: column;
+}
+
+.ant-checkbox-wrapper + span, .ant-checkbox + span{
+    color:$color-gray;
+    margin: 5px 0;
+}
