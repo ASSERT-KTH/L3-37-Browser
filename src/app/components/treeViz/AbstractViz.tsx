@@ -182,7 +182,7 @@ export class AbstractViz extends React.Component<IProps, IState>{
             ;
         if (!this.state.nodes)
             return null;
-        const color = this.state.colorTheme ? `linear-gradient(0deg, rgba(100,102,170,${this.state.opacity}) 15%, rgba(52,126,203,${this.state.opacity}) 50%, rgba(100,102,170,${this.state.opacity}) 85%)` : "#001529";
+        const color = this.state.colorTheme ? `linear-gradient(0deg, rgba(100,102,170,${this.state.opacity}) 15%, rgba(52,126,203,${this.state.opacity}) 50%, rgba(100,102,170,${this.state.opacity}) 85%)` : `rgba(0, 21, 41, ${this.state.opacity})`;
         return (
             <div className="gradient-bg"
                 style={{
