@@ -14,11 +14,13 @@ interface IMenuLateralProps {
     disabled: boolean,
     handleOpacity: Function
     opacity: number,
-    handleMirrorChange: Function
+    handleMirrorChange: Function,
+    handleColorChange: Function,
+    darkMode: boolean
 
 }
 
-export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, visible, handleSlider, scale, disabled, handleOpacity, opacity, handleMirrorChange }): JSX.Element => {
+export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, visible, handleSlider, scale, disabled, handleOpacity, opacity, handleMirrorChange, handleColorChange, darkMode }): JSX.Element => {
 
     let classes = ''
     classes = !visible ? ' invisible' : classes;
@@ -83,9 +85,14 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, 
 
 
 
-
+    //modify display
     function onChange(checked) {
         handleMirrorChange(checked);
+    }
+
+    //modify color theme
+    function colorChange(checked) {
+        handleColorChange(checked);
     }
 
 
@@ -96,10 +103,17 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, 
         </div>
     )
 
+    const colorTheme = (
+        <div>
+            <h3>Color theme:</h3>
+            <Switch checkedChildren="Color" unCheckedChildren="Night" defaultChecked onChange={colorChange} />
+        </div>
+    )
+
     const leyendStruc = {
         struct: {
             name: "Structure",
-            items: ['article', 'header', 'nav', 'head', 'body', 'footer', 'section', 'table', 'tr', 'center', 'hr', 'br', 'tbody', 'thead', 'ul', 'li', 'ol', 'html', '#document']
+            items: ['header', 'article', 'nav', 'head', 'body', 'footer', 'section', 'table', 'tr', 'center', 'hr', 'br', 'tbody', 'thead', 'ul', 'li', 'ol', 'html', '#document']
         },
         items: {
             name: "Script",
@@ -167,11 +181,12 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, 
                             y1={size}
                             tooltip={false}
                             mirror={false}
+                            colorTheme={darkMode}
                         />
                     </svg>
                     <div className='spacing-wlarge' />
                     <div style={{ display: 'flex', flexFlow: 'wrap', width: '190px' }}>
-                        {leyendStruc[e].items.map(item => <span className={`descendants descendants-span`}>{item}</span>)}
+                        {leyendStruc[e].items.map((item, i) => <span key={i + item} className={`descendants descendants-span`}>{item}</span>)}
                     </div>
                 </div>
                 <div className='spacing-small' />
@@ -201,6 +216,8 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ height, handleClick, 
         {opacitySlider}
         <div className='spacing-small' />
         {layoutSelection}
+        <div className='spacing-small' />
+        {colorTheme}
         <div className='spacing-small' />
 
         {legend}

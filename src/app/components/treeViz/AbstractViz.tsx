@@ -22,7 +22,8 @@ interface IState {
     root: any,
     opacity: number,
     selected_categories: string[]
-    mirror: boolean
+    mirror: boolean,
+    colorTheme: boolean
 }
 
 const categories = {
@@ -59,7 +60,8 @@ export class AbstractViz extends React.Component<IProps, IState>{
             root: null,
             opacity: 1,
             selected_categories: Object.keys(categories).map(e => categories[e].name),
-            mirror: true
+            mirror: true,
+            colorTheme: true
         }
     }
 
@@ -128,6 +130,10 @@ export class AbstractViz extends React.Component<IProps, IState>{
         });
     }
 
+    handleColorChange = (checked) => {
+        this.setState({ colorTheme: checked })
+    }
+
 
 
     render() {
@@ -159,6 +165,8 @@ export class AbstractViz extends React.Component<IProps, IState>{
             handleOpacity={this.handleOpacity}
             opacity={this.state.opacity}
             handleMirrorChange={this.handleMirrorChange}
+            handleColorChange={this.handleColorChange}
+            darkMode={this.state.colorTheme}
         />);
 
         const d3Viz = (<DTreeViz
@@ -169,18 +177,19 @@ export class AbstractViz extends React.Component<IProps, IState>{
             scale={this.state.scale}
             processing={this.state.processing}
             mirror={this.state.mirror}
+            colorTheme={this.state.colorTheme}
         />)
             ;
         if (!this.state.nodes)
             return null;
-
+        const color = this.state.colorTheme ? `linear-gradient(0deg, rgba(100,102,170,${this.state.opacity}) 15%, rgba(52,126,203,${this.state.opacity}) 50%, rgba(100,102,170,${this.state.opacity}) 85%)` : "#001529";
         return (
             <div className="gradient-bg"
                 style={{
                     width: this.props.size.width,
                     height: this.props.size.height - this.props.marginTop - 1,
                     top: this.props.marginTop,
-                    background: `linear-gradient(0deg, rgba(100,102,170,${this.state.opacity}) 15%, rgba(52,126,203,${this.state.opacity}) 50%, rgba(100,102,170,${this.state.opacity}) 85%)`
+                    background: color
                     // background: 'rgb(100,102,170)',
                 }}>
                 {d3Viz}

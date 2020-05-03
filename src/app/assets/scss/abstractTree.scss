@@ -12,6 +12,9 @@
 	width: 45px;
 }
 
+.background-night{
+	background-color: #001529;
+}
 
 .gradient-bg{
 	position: absolute;
@@ -31,6 +34,10 @@
 .inputText{
 	font-size: 14px;
 	fill:white;
+
+	&-dark{
+		fill:#001529;
+	}
 }
 
 .btn-block{

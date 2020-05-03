@@ -225,7 +225,7 @@ circle.node-div, circle.node-section, circle.node-table, circle.node-tr, circle.
   fill: black;
 }
 
-.descendants-tbody, .descendants-thead, .descendants-head, .descendants-footer, .descendants-body, .descendants-html {
+.descendants-tbody, .descendants-thead, .descendants-head, .descendants-footer, .descendants-body, .descendants-html, .descendants-header {
   fill: #f8cd0c;
 }
 
@@ -265,6 +265,16 @@ circle.node-div, circle.node-section, circle.node-table, circle.node-tr, circle.
 
 .descendants-span {
   margin-right: 10px;
+}
+
+.dark {
+  fill: white !important;
+  opacity: 1 !important;
+}
+
+.dark-line {
+  stroke: white !important;
+  fill: none !important;
 }
 
 .top-slider {

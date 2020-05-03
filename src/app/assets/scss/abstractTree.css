@@ -10,6 +10,10 @@
   width: 45px;
 }
 
+.background-night {
+  background-color: #001529;
+}
+
 .gradient-bg {
   position: absolute;
   overflow: hidden;
@@ -28,6 +32,10 @@
 .inputText {
   font-size: 14px;
   fill: white;
+}
+
+.inputText-dark {
+  fill: #001529;
 }
 
 .btn-block {

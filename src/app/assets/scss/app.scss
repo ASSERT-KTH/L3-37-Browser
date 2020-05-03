@@ -268,7 +268,7 @@ circle.node {
         fill: black;
     }
 
-    &-tbody, &-thead, &-head, &-footer, &-body, &-html{
+    &-tbody, &-thead, &-head, &-footer, &-body, &-html, &-header{
         fill: $color-yellow;
     }
     // Structural tags
@@ -307,6 +307,15 @@ circle.node {
         margin-right: 10px;
     }
 
+}
+
+.dark{
+    fill:white !important;
+    opacity:1 !important;
+    &-line{
+        stroke:white !important;
+        fill:none !important;
+    }
 }
 
 .top-slider{
